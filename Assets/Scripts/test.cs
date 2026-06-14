@@ -4,7 +4,8 @@ public class Test : MonoBehaviour
 {
     void Start()
     {
-        Debug.Log("hello");
+        Debug.Log("hi");
+
     }
 
     void Update()
