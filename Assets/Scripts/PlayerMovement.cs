@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour
     public float jumpforce = 10f;
     private int jumpCount = 1;
     private int maxJumpCount = 1;
-    private float jumpResetCoolDown = 1f;
+    private float jumpResetCoolDown = 5f;
     public GameObject groundCheck;
     public LayerMask ground;
     float horizontal;
@@ -25,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
     {
         
         rb.linearVelocity = new Vector2(horizontal * movespeed, rb.linearVelocity.y);
-        if (Physics2D.OverlapArea(new Vector2(groundCheck.transform.position.x-0.55f,groundCheck.transform.position.y + 0.5f),new Vector2(groundCheck.transform.position.x + 0.55f, groundCheck.transform.position.y - 0.1f), ground) && jumpResetCoolDown>5)
+        if (Physics2D.OverlapArea(new Vector2(groundCheck.transform.position.x-0.55f,groundCheck.transform.position.y + 0.5f),new Vector2(groundCheck.transform.position.x + 0.55f, groundCheck.transform.position.y - 0.1f), ground) && jumpResetCoolDown>1)
         {
             jumpCount = maxJumpCount;
         }
