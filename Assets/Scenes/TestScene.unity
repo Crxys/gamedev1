@@ -191,7 +191,7 @@ GameObject:
   - component: {fileID: 701048896}
   - component: {fileID: 701048895}
   - component: {fileID: 701048897}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -329,7 +329,7 @@ GameObject:
   - component: {fileID: 1288967192}
   - component: {fileID: 1288967191}
   - component: {fileID: 1288967193}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -892,6 +892,10 @@ PrefabInstance:
       propertyPath: moveAction
       value: 
       objectReference: {fileID: -1680190386980627800, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+    - target: {fileID: 2163518474830870526, guid: d5adf4a4530264e39a3421040344a5f7, type: 3}
+      propertyPath: ground.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 3841916425889852614, guid: d5adf4a4530264e39a3421040344a5f7, type: 3}
       propertyPath: m_Constraints
       value: 4
