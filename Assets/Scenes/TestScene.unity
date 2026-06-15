@@ -191,7 +191,7 @@ GameObject:
   - component: {fileID: 207744954}
   - component: {fileID: 207744953}
   - component: {fileID: 207744955}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Slope
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -329,7 +329,7 @@ GameObject:
   - component: {fileID: 606784534}
   - component: {fileID: 606784533}
   - component: {fileID: 606784535}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1037,7 +1037,7 @@ GameObject:
   - component: {fileID: 1800936041}
   - component: {fileID: 1800936040}
   - component: {fileID: 1800936042}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wall (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
