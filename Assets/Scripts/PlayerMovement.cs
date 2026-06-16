@@ -20,8 +20,10 @@ public class PlayerMovement : MonoBehaviour
     public GameObject leftWallCheck;
     private bool isTouchingRightWall = false;
     public GameObject rightWallCheck;
+    public bool canWallJump = true;
 
     public float moveSpeed = 5f;
+    public float maxMoveSpeed = 5f;
     float horizontal;
     float vertical;
     public Rigidbody2D rb;
@@ -35,7 +37,6 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
         rb.linearVelocity = new Vector2(horizontal * moveSpeed, rb.linearVelocity.y);
         if (Physics2D.OverlapArea(new Vector2(groundCheck.transform.position.x-0.45f,groundCheck.transform.position.y + 0.1f),new Vector2(groundCheck.transform.position.x + 0.45f, groundCheck.transform.position.y - 0.1f), ground) && jumpResetCoolDown>0.2)
         {
@@ -54,6 +55,10 @@ public class PlayerMovement : MonoBehaviour
         }
         if (Physics2D.OverlapArea(new Vector2(leftWallCheck.transform.position.x-0.05f,leftWallCheck.transform.position.y+0.45f),new Vector2(leftWallCheck.transform.position.x+0.05f,leftWallCheck.transform.position.y-0.45f), ground))
         {
+            if (isTouchingLeftWall == false && jumpCount != maxJumpCount && canWallJump)
+            {
+                jumpCount++;
+            }
             isTouchingLeftWall = true;
         }
         else
@@ -72,6 +77,10 @@ public class PlayerMovement : MonoBehaviour
 
         if (Physics2D.OverlapArea(new Vector2(rightWallCheck.transform.position.x - 0.05f, rightWallCheck.transform.position.y + 0.45f), new Vector2(rightWallCheck.transform.position.x + 0.05f, rightWallCheck.transform.position.y - 0.45f), ground))
         {
+            if (isTouchingRightWall == false && jumpCount != maxJumpCount && canWallJump)
+            {
+                jumpCount++;
+            }
             isTouchingRightWall = true;
         }
         else
