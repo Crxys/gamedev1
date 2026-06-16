@@ -5,7 +5,7 @@ public class EnemyAI : MonoBehaviour
     public static int enemyCount = 0;
     private int myID;
     private Rigidbody2D me;
-    public GameObject player;
+    public PlayerMovement player;
     private float jumpforce = 10f;
     private float maxMoveSpeed = 5f;
     private bool isGrounded = false;
@@ -17,6 +17,7 @@ public class EnemyAI : MonoBehaviour
         me = GetComponent<Rigidbody2D>();
         myID = enemyCount;
         enemyCount++;
+        player = Object.FindAnyObjectByType<PlayerMovement>();
     }
 
     // Update is called once per frame
