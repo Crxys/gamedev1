@@ -506,7 +506,7 @@ MonoBehaviour:
   groundCheck: {fileID: 2388390716965677989}
   ground:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   leftWallCheck: {fileID: 6808709766099572201}
   rightWallCheck: {fileID: 7414583661177555938}
   canWallJump: 1

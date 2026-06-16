@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 7.38, y: 2.01, z: 0}
-  m_LocalScale: {x: 1.2, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -181,3 +181,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   me: {fileID: 0}
   player: {fileID: 8201987629215921968, guid: d5adf4a4530264e39a3421040344a5f7, type: 3}
+  jumpforce: 10
+  maxMoveSpeed: 5
+  ground:
+    serializedVersion: 2
+    m_Bits: 64
