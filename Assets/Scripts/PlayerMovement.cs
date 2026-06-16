@@ -50,7 +50,7 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.linearVelocityX = maxMoveSpeed * horizontal;
         }
-        if (Physics2D.OverlapArea(new Vector2(groundCheck.transform.position.x-0.45f,groundCheck.transform.position.y + 0.1f),new Vector2(groundCheck.transform.position.x + 0.45f, groundCheck.transform.position.y - 0.1f), ground) && jumpResetCoolDown>0.2)
+        if (Physics2D.OverlapArea(new Vector2(groundCheck.transform.position.x-0.45f,groundCheck.transform.position.y + 0.05f),new Vector2(groundCheck.transform.position.x + 0.45f, groundCheck.transform.position.y - 0.05f), ground) && jumpResetCoolDown>0.2)
         {
             jumpCount = maxJumpCount;
             isGrounded = true;
@@ -65,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
                 isGrounded = false;
             }
         }
-        if (Physics2D.OverlapArea(new Vector2(leftWallCheck.transform.position.x-0.05f,leftWallCheck.transform.position.y+0.45f),new Vector2(leftWallCheck.transform.position.x+0.05f,leftWallCheck.transform.position.y-0.45f), ground))
+        if (Physics2D.OverlapArea(new Vector2(leftWallCheck.transform.position.x-0.05f,leftWallCheck.transform.position.y+0.35f),new Vector2(leftWallCheck.transform.position.x+0.05f,leftWallCheck.transform.position.y-0.35f), ground))
         {
             if (isTouchingLeftWall == false && jumpCount != maxJumpCount && canWallJump)
             {
@@ -87,7 +87,7 @@ public class PlayerMovement : MonoBehaviour
 
         }
 
-        if (Physics2D.OverlapArea(new Vector2(rightWallCheck.transform.position.x - 0.05f, rightWallCheck.transform.position.y + 0.45f), new Vector2(rightWallCheck.transform.position.x + 0.05f, rightWallCheck.transform.position.y - 0.45f), ground))
+        if (Physics2D.OverlapArea(new Vector2(rightWallCheck.transform.position.x - 0.05f, rightWallCheck.transform.position.y + 0.35f), new Vector2(rightWallCheck.transform.position.x + 0.05f, rightWallCheck.transform.position.y - 0.35f), ground))
         {
             if (isTouchingRightWall == false && jumpCount != maxJumpCount && canWallJump)
             {
