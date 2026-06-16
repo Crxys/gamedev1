@@ -4,10 +4,10 @@ public class EnemyAI : MonoBehaviour
 {
     public static int enemyCount = 0;
     private int myID;
-    public Rigidbody2D me;
+    private Rigidbody2D me;
     public GameObject player;
-    public float jumpforce = 10f;
-    public float maxMoveSpeed = 5f;
+    private float jumpforce = 10f;
+    private float maxMoveSpeed = 5f;
     private bool isGrounded = false;
     public LayerMask ground;
 
