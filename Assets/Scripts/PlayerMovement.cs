@@ -50,7 +50,6 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.linearVelocityX = maxMoveSpeed * horizontal;
         }
-        //rb.linearVelocity = new Vector2(horizontal * moveSpeed, rb.linearVelocity.y);
         if (Physics2D.OverlapArea(new Vector2(groundCheck.transform.position.x-0.45f,groundCheck.transform.position.y + 0.1f),new Vector2(groundCheck.transform.position.x + 0.45f, groundCheck.transform.position.y - 0.1f), ground) && jumpResetCoolDown>0.2)
         {
             jumpCount = maxJumpCount;
@@ -127,12 +126,12 @@ public class PlayerMovement : MonoBehaviour
                 jumpCount -= 1;
                 isGrounded = false;
                 jumpResetCoolDown = 0;
-                if (isTouchingLeftWall)
+                if (isTouchingLeftWall && canWallJump && isTouchingRightWall == false)
                 {
                     rb.linearVelocityX = 10f;
                     isTouchingLeftWall = false;
                 }
-                if (isTouchingRightWall)
+                if (isTouchingRightWall && canWallJump && isTouchingLeftWall == false)
                 {
                     rb.linearVelocityX = -10f;
                     isTouchingRightWall = false;
