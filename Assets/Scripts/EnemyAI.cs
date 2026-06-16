@@ -23,8 +23,8 @@ public class EnemyAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float xToPlayer = player.transform.x-me.transform.x;
-        me.linearVelocityX += Mathf.Sign(xToPlayer);
+        float xToPlayer = player.transform.position.x-me.transform.position.x;
+        me.linearVelocityX += Math.Sign(xToPlayer);
         if (isGrounded&&xToPlayer<100) Jump();
         //friction
         me.linearVelocityX *= 0.6f;
