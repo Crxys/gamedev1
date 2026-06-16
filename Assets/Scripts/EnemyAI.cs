@@ -31,7 +31,7 @@ public class EnemyAI : MonoBehaviour
                         ||Mathf.Abs(xToPlayer)>0.5f&&Mathf.Abs(me.linearVelocityX) < 0.05f))
             Jump();
         
-        if (Physics2D.OverlapArea(new Vector2(me.transform.position.x-0.5f,me.transform.position.y - 0.5f),new Vector2(me.transform.position.x + 0.5f, me.transform.position.y - 0.5f), ground))
+        if (Physics2D.OverlapArea(new Vector2(me.transform.position.x-0.45f,me.transform.position.y - 0.5f),new Vector2(me.transform.position.x + 0.45f, me.transform.position.y - 0.5f), ground))
              {isGrounded = true;}
         else {isGrounded = false;}
     }

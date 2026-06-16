@@ -1,5 +1,7 @@
 # GameDev1
 
+<img width="256" height="256" src="https://github.com/Crxys/gamedev1/blob/main/Assets/Art/Kai/New%20Piskel%20(6).png?raw=true">
+
 ## Table of Contents
 - [About](#about)
 - [What's New](#whats-new)
