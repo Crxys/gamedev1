@@ -44,7 +44,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (Mathf.Abs(rb.linearVelocityX) > maxMoveSpeed)
         {
-            rb.linearVelocityX -= 1f * (rb.linearVelocityX/Mathf.Abs(rb.linearVelocityX));
+            rb.linearVelocityX -= 1f * Mathf.Sign(rb.linearVelocityX);
         }
         else
         {
