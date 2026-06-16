@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem; 
 public class PlayerMovement : MonoBehaviour
@@ -37,7 +38,19 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        rb.linearVelocity = new Vector2(horizontal * moveSpeed, rb.linearVelocity.y);
+        if (Mathf.Abs(rb.linearVelocityX) + moveSpeed <= maxMoveSpeed)
+        {
+            rb.linearVelocityX += moveSpeed * horizontal;
+        }
+        else if (Mathf.Abs(rb.linearVelocityX) > maxMoveSpeed)
+        {
+            rb.linearVelocityX -= 1f * (rb.linearVelocityX/Mathf.Abs(rb.linearVelocityX));
+        }
+        else
+        {
+            rb.linearVelocityX = maxMoveSpeed * horizontal;
+        }
+        //rb.linearVelocity = new Vector2(horizontal * moveSpeed, rb.linearVelocity.y);
         if (Physics2D.OverlapArea(new Vector2(groundCheck.transform.position.x-0.45f,groundCheck.transform.position.y + 0.1f),new Vector2(groundCheck.transform.position.x + 0.45f, groundCheck.transform.position.y - 0.1f), ground) && jumpResetCoolDown>0.2)
         {
             jumpCount = maxJumpCount;
