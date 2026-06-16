@@ -25,7 +25,7 @@ public class EnemyAI : MonoBehaviour
     {
         float xToPlayer = player.transform.position.x-me.transform.position.x;
         me.linearVelocityX += Mathf.Sign(xToPlayer);
-        if (isGrounded&&Mathf.Abs(xToPlayer)<100) Jump();
+        if (isGrounded&&Mathf.Abs(xToPlayer)<5) Jump();
         //friction
         me.linearVelocityX *= 0.8f;
 
