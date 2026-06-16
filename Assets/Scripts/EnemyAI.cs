@@ -18,6 +18,6 @@ public class EnemyAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        rb.linearVelocityY = 1;
+        me.linearVelocityY = 1;
     }
 }
