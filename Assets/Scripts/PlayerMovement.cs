@@ -121,19 +121,23 @@ public class PlayerMovement : MonoBehaviour
     {
         if (context.performed)
         {
-            if (jumpCount > 0) {
+            if (jumpCount > 0 || ((isTouchingLeftWall || isTouchingRightWall) && canWallJump)) 
+            {
                 rb.linearVelocityY = jumpforce;
-                jumpCount -= 1;
+                if (canWallJump == false || (isTouchingLeftWall == false && isTouchingRightWall == false))
+                {
+                    jumpCount -= 1;
+                }
                 isGrounded = false;
                 jumpResetCoolDown = 0;
                 if (isTouchingLeftWall && canWallJump && isTouchingRightWall == false)
                 {
-                    rb.linearVelocityX = 10f;
+                    rb.linearVelocityX = 20f;
                     isTouchingLeftWall = false;
                 }
                 if (isTouchingRightWall && canWallJump && isTouchingLeftWall == false)
                 {
-                    rb.linearVelocityX = -10f;
+                    rb.linearVelocityX = -20f;
                     isTouchingRightWall = false;
                 }
             }
