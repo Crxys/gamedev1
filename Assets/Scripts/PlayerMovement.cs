@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isGrounded = false;
     public GameObject groundCheck;
     public LayerMask ground;
-
+    
     // Variables for interacting with walls
     private bool isTouchingLeftWall = false;
     public GameObject leftWallCheck;
