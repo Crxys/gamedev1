@@ -2784,7 +2784,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -4510236041916873017, guid: d5adf4a4530264e39a3421040344a5f7, type: 3}
       propertyPath: attackRange
-      value: 0.87
+      value: 1.76
       objectReference: {fileID: 0}
     - target: {fileID: -4510236041916873017, guid: d5adf4a4530264e39a3421040344a5f7, type: 3}
       propertyPath: attackCooldown
