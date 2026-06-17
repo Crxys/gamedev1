@@ -138,6 +138,37 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!1 &2527154553159208952
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1455122579903979578}
+  m_Layer: 0
+  m_Name: AttackTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1455122579903979578
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2527154553159208952}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.28, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5894920705717013546}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6808709766099572201
 GameObject:
   m_ObjectHideFlags: 0
@@ -333,6 +364,7 @@ GameObject:
   - component: {fileID: 895085095411391581}
   - component: {fileID: 3841916425889852614}
   - component: {fileID: 2163518474830870526}
+  - component: {fileID: -4510236041916873017}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -356,6 +388,7 @@ Transform:
   - {fileID: 647499409219382143}
   - {fileID: 6999515274015572971}
   - {fileID: 8351394772095499198}
+  - {fileID: 1455122579903979578}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6368612189078179456
@@ -513,3 +546,21 @@ MonoBehaviour:
   moveSpeed: 5
   maxMoveSpeed: 5
   rb: {fileID: 0}
+--- !u!114 &-4510236041916873017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8201987629215921968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bdcc64efe4d841c48aef29a6b8ac8f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
+  attackTransform: {fileID: 1455122579903979578}
+  attackRange: 1.01
+  attackableLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  damageAmount: 1
