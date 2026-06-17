@@ -5,6 +5,9 @@ public class EnemyHP : MonoBehaviour, IDamageable
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     [SerializeField] private float maxHealth = 3f;
     private float currentHealth;
+
+    public bool hasBeenHit { get; set; }
+
     void Start()
     {
         currentHealth = maxHealth;
@@ -17,6 +20,7 @@ public class EnemyHP : MonoBehaviour, IDamageable
     }
     public void Damage(float damageAmount)
     {
+        hasBeenHit = true;
         currentHealth -= damageAmount;
         if(currentHealth <= 0f)
         {
