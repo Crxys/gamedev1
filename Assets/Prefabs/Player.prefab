@@ -714,11 +714,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bdcc64efe4d841c48aef29a6b8ac8f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
+  weaponPivot: {fileID: 0}
   attackRange: 1.33
   enemyLayers:
     serializedVersion: 2
     m_Bits: 128
   attackDamage: 1
-  baseKnockbackForce: 20
+  baseKnockbackForce: 10.13
   baseKnockbackDuration: 1
-  attackTriggerName: Attack
+  swingAngle: 110
+  swingDuration: 0.15
