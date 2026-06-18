@@ -1,80 +1,129 @@
 using UnityEngine;
-using UnityEngine.InputSystem; 
-using System.Collections.Generic;
 using System.Collections;
+
 public class PlayerAttack : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    [SerializeField] private Transform attackTransform;
-    [SerializeField] private float attackRange = 1.5f;
-    [SerializeField] private LayerMask attackableLayer;
-    [SerializeField] private float damageAmount = 1f;
-    public float attackCooldown = 0.1f;
-    public bool isAttacking { get; private set; } = false;
-    private Animator animator;
-    private RaycastHit2D[] hits;
-    // Update is called once per frame
-    private Vector2 moveInput;
-    private float attackTimer = 1f;
-    private List<IDamageable> damagedObjects = new List<IDamageable>();
+    [Header("Weapon Transform Hooks")]
+    public Transform weaponPivot;
+    public float attackRange = 1.5f;    
+    public LayerMask enemyLayers;       
+    public float attackDamage = 1.0f;   
 
-    private void Start()
+    [Header("Knockback Settings")]
+    public float baseKnockbackForce = 18f;
+    public float baseKnockbackDuration = 0.25f;
+
+    [Header("Scripted Animation Properties")]
+    public float swingAngle = 110f;
+    public float swingDuration = 0.15f; 
+    private Transform automaticAttackPoint; 
+    private bool isSwinging = false;
+    private Quaternion originalRotation;
+
+    void Start()
     {
-        animator = GetComponent<Animator>();
-    }
-    private void Update()
-    {
-        attackTimer += Time.deltaTime;
-    }
-    public void Attack(InputAction.CallbackContext context)
-    {
-        if(context.performed && attackTimer >= attackCooldown)
+        automaticAttackPoint = transform.Find("AttackPoint");
+
+        if (weaponPivot != null)
         {
-            //performAttack();
-            animator.SetTrigger("attack");
-            attackTimer = 0f;
+            originalRotation = weaponPivot.localRotation;
+        }
+        else
+        {
+            Debug.LogError("ATTACK ERROR: Please drag your WeaponPivot object into the inspector slot!");
+        }
+
+        if (automaticAttackPoint == null)
+        {
+            Debug.LogError("ATTACK ERROR: Could not find a child GameObject named exactly 'AttackPoint'!");
         }
     }
-    
-    public IEnumerator DamageWhileSlashIsActive()
+
+    void Update()
     {
-        isAttacking = true;
-        while(isAttacking)
+        if (Input.GetMouseButtonDown(0) && !isSwinging)
         {
-            hits = Physics2D.CircleCastAll(attackTransform.position, attackRange, transform.right, 0f, attackableLayer);
-            for (int i = 0; i < hits.Length; i++)
+            StartCoroutine(ProceduralSwingRoutine());
+        }
+    }
+
+    private IEnumerator ProceduralSwingRoutine()
+    {
+        isSwinging = true;
+
+        PerformMeleeAttack();
+
+        float elapsedTime = 0f;
+        
+        Quaternion startRot = originalRotation * Quaternion.Euler(0, 0, swingAngle / 2f);
+        Quaternion endRot = originalRotation * Quaternion.Euler(0, 0, -swingAngle / 2f);
+
+        while (elapsedTime < swingDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float percentage = elapsedTime / swingDuration;
+
+            float smoothPercentage = Mathf.SmoothStep(0f, 1f, percentage);
+
+            if (weaponPivot != null)
             {
-                IDamageable damageable = hits[i].collider.GetComponent<IDamageable>();
-                if(damageable != null && !damageable.hasBeenHit)            
-                {
-                    damageable.Damage(damageAmount);
-                    damagedObjects.Add(damageable);
-                }
+                weaponPivot.localRotation = Quaternion.Slerp(startRot, endRot, smoothPercentage);
             }
+
             yield return null;
         }
-        ReturnAttackableObjectsToNormal();
-    }
-    public void ReturnAttackableObjectsToNormal()
-    {
-        foreach(IDamageable damageable in damagedObjects)
+
+        elapsedTime = 0f;
+        float returnDuration = 0.1f;
+        Quaternion currentRot = weaponPivot.localRotation;
+
+        while (elapsedTime < returnDuration)
         {
-            damageable.hasBeenHit = false;
+            elapsedTime += Time.deltaTime;
+            weaponPivot.localRotation = Quaternion.Slerp(currentRot, originalRotation, elapsedTime / returnDuration);
+            yield return null;
         }
-        damagedObjects.Clear();
+
+        weaponPivot.localRotation = originalRotation;
+        isSwinging = false;
     }
+
+    public void PerformMeleeAttack()
+    {
+        if (automaticAttackPoint == null) return;
+
+        Vector3 searchPosition = automaticAttackPoint.position;
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(searchPosition, attackRange, enemyLayers);
+
+        foreach (Collider2D enemyCollider in hitEnemies)
+        {
+            EnemyKnockback kb = enemyCollider.GetComponent<EnemyKnockback>();
+            if (kb != null)
+            {
+                Vector3 enemyPos = enemyCollider.transform.position;
+                Vector3 playerPos = transform.position;
+                enemyPos.y = 0;
+                playerPos.y = 0;
+
+                Vector2 direction = (enemyPos - playerPos).normalized;
+                kb.Knockback(direction, baseKnockbackForce, baseKnockbackDuration);
+            }
+
+            EnemyHP enemyHealth = enemyCollider.GetComponent<EnemyHP>();
+            if (enemyHealth != null)
+            {
+                enemyHealth.Damage(attackDamage);
+                Debug.Log($"{enemyCollider.name} took {attackDamage} damage procedurally!");
+            }
+        }
+    }
+
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(attackTransform.position, attackRange);
+        if (automaticAttackPoint != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(automaticAttackPoint.position, attackRange);
+        }
     }
-    #region Animation Triggers
-
-    public void ShouldBeDamagingToFalse()
-    {
-        isAttacking = false;
-    }
-
-
-    #endregion
 }

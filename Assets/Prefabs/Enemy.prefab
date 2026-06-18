@@ -14,9 +14,10 @@ GameObject:
   - component: {fileID: 9012048114761252414}
   - component: {fileID: 926320085302046037}
   - component: {fileID: -522821531912450131}
+  - component: {fileID: -7144374592937890340}
   m_Layer: 7
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -196,4 +197,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 525c604ebaf6441658be8e3df083c486, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  maxHealth: 3
+  maxHealth: 5
+--- !u!114 &-7144374592937890340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7623131716323782952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9d94e044a989c64aaf3d83e144a7924, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyKnockback
