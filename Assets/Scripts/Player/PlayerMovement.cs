@@ -23,6 +23,10 @@ public class PlayerMovement : MonoBehaviour
     public GameObject rightWallCheck;
     public bool canWallJump = true;
 
+    // Variables for dashing
+    private float dashCooldown = 0f;
+    private bool canDash = true;
+
     public float moveSpeed = 5f;
     public float maxMoveSpeed = 5f;
     float horizontal;
@@ -42,15 +46,28 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.linearVelocityX += moveSpeed * horizontal;
         }
+
         else if (Mathf.Abs(rb.linearVelocityX) > maxMoveSpeed)
         {
             rb.linearVelocityX -= 1f * Mathf.Sign(rb.linearVelocityX);
         }
+
         else
         {
             rb.linearVelocityX = maxMoveSpeed * horizontal;
         }
-        if (Physics2D.OverlapArea(new Vector2(groundCheck.transform.position.x-0.45f,groundCheck.transform.position.y + 0.05f),new Vector2(groundCheck.transform.position.x + 0.45f, groundCheck.transform.position.y - 0.05f), ground) && jumpResetCoolDown>0.2)
+
+        if (horizontal == 1)
+        {
+            transform.localScale = new Vector3(1f,1f,1f);
+        }
+        else if (horizontal == -1)
+        {
+            transform.localScale = new Vector3(-1f,1f,1f);
+        }
+
+
+        if (Physics2D.OverlapArea(new Vector2(groundCheck.transform.position.x - 0.45f, groundCheck.transform.position.y + 0.05f), new Vector2(groundCheck.transform.position.x + 0.45f, groundCheck.transform.position.y - 0.05f), ground) && jumpResetCoolDown > 0.2)
         {
             jumpCount = maxJumpCount;
             isGrounded = true;
@@ -109,6 +126,7 @@ public class PlayerMovement : MonoBehaviour
 
         }
         jumpResetCoolDown += Time.deltaTime;
+        dashCooldown += Time.deltaTime;
     }
     
     public void Move(InputAction.CallbackContext context)
@@ -144,5 +162,13 @@ public class PlayerMovement : MonoBehaviour
             
         }
     }
-
+    public void Dash(InputAction.CallbackContext context)
+    {
+        if (dashCooldown >= 5 && canDash)
+        {
+            rb.linearVelocityX = transform.localScale.x*50;
+            dashCooldown = 0f;
+        }
+        
+    }
 }
