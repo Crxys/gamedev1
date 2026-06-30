@@ -34,9 +34,12 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody2D rb;
     //public InputActionReference moveAction;
     private Vector2 moveInput;
+
+    private Animator animator;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -127,6 +130,7 @@ public class PlayerMovement : MonoBehaviour
         }
         jumpResetCoolDown += Time.deltaTime;
         dashCooldown += Time.deltaTime;
+        SetAnimation(horizontal);
     }
     
     public void Move(InputAction.CallbackContext context)
@@ -170,5 +174,31 @@ public class PlayerMovement : MonoBehaviour
             dashCooldown = 0f;
         }
         
+    }
+
+    private void SetAnimation(float horizontal)
+    {
+        if (isGrounded)
+        {
+            if(Mathf.Abs(horizontal) > 0)
+            {
+                animator.Play("Run");
+            }
+            else
+            {
+                animator.Play("Idle");
+            }
+        }
+        else
+        {
+            if (rb.linearVelocityY > 0)
+            {
+                animator.Play("Jump");
+            }
+            else
+            {
+                animator.Play("Fall");
+            }
+        }
     }
 }

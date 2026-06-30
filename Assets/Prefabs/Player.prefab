@@ -701,7 +701,7 @@ MonoBehaviour:
   canWallJump: 1
   moveSpeed: 5
   maxMoveSpeed: 5
-  rb: {fileID: 0}
+  rb: {fileID: 3841916425889852614}
 --- !u!114 &-4510236041916873017
 MonoBehaviour:
   m_ObjectHideFlags: 0
