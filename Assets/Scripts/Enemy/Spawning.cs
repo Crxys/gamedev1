@@ -6,8 +6,9 @@ public class Spawning : MonoBehaviour
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private Transform[] spawnPoints;
     [SerializeField] private float spawnInterval = 2f;
-
+    [SerializeField] private int maxEnemies = 5;
     private bool isSpawning = true;
+    private int currentEnemyCount = 0;
 
     private void Start()
     {
@@ -21,7 +22,14 @@ public class Spawning : MonoBehaviour
     {
         while (isSpawning)
         {
-            SpawnEnemy();
+            if (currentEnemyCount < maxEnemies)
+            {
+                SpawnEnemy();
+            }
+            else
+            {
+                StopSpawning();
+            }
             yield return new WaitForSeconds(spawnInterval);
         }
     }
@@ -31,6 +39,7 @@ public class Spawning : MonoBehaviour
         int randomIndex = Random.Range(0, spawnPoints.Length);
         Transform spawnPoint = spawnPoints[randomIndex];
         Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
+        currentEnemyCount++;
     }
 
     public void StopSpawning()

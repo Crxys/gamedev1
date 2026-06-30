@@ -32,6 +32,8 @@ public class RoomTransitionManager : MonoBehaviour
         currentRoom = SceneManager.GetActiveScene().name;
         SetupRoom(spawnID);
         SetupCameraConfiner();
+
+        yield return new WaitForSeconds(.25f);
         yield return screenFader.Fade(1f, 0f, 1f);
 
 
