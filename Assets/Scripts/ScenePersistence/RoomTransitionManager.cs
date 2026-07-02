@@ -65,9 +65,7 @@ public class RoomTransitionManager : MonoBehaviour
     private void SetupCameraConfiner()
     {
         CameraConfinerProvider provider = FindFirstObjectByType<CameraConfinerProvider>();
-        if(provider != null)
-        {
-            cameraManager.SetConfiner(provider.confiner);
-        }
+        cameraManager.SetConfiner(provider.confiner);
+        
     }
 }
