@@ -57,22 +57,29 @@ public class PlayerMovement : MonoBehaviour
 
     // Animation state — should update every rendered frame for smoothness
     SetAnimation(horizontal);
+    // end of Update
+    //Debug.Log($"[Update] vX={rb.linearVelocityX}, pos={transform.position}");
 }
     void FixedUpdate()
     {
-        if (Mathf.Abs(rb.linearVelocityX) + moveSpeed <= maxMoveSpeed)
+
+        if (Mathf.Abs(rb.linearVelocityX) <= maxMoveSpeed)
         {
             rb.linearVelocityX += moveSpeed * horizontal * Time.fixedDeltaTime;
+            Debug.Log($"case 1:{moveSpeed * horizontal * Time.fixedDeltaTime}, {rb.linearVelocityX}");
+    
         }
 
         else if (Mathf.Abs(rb.linearVelocityX) > maxMoveSpeed)
         {
             rb.linearVelocityX -= 1f * Mathf.Sign(rb.linearVelocityX) * Time.fixedDeltaTime;
+            Debug.Log($"case 2:{Mathf.Abs(rb.linearVelocityX)}");
         }
 
         else
         {
             rb.linearVelocityX = maxMoveSpeed * horizontal;
+            Debug.Log($"{maxMoveSpeed * horizontal}");
         }
 
         
@@ -97,7 +104,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (isTouchingLeftWall == false && jumpCount != maxJumpCount && canWallJump)
             {
-                jumpCount++;
+                jumpCount++; //explains extra jump when wall jumping, but not when jumping off the ground
             }
             isTouchingLeftWall = true;
         }
@@ -138,7 +145,9 @@ public class PlayerMovement : MonoBehaviour
         }
         jumpResetCoolDown += Time.deltaTime;
         dashCooldown += Time.deltaTime;
-
+        // end of FixedUpdate, after all velocity-setting code
+        //Debug.Log($"[FixedUpdate] vX={rb.linearVelocityX}, pos={transform.position}");
+        //Debug.Log($"L={isTouchingLeftWall} R={isTouchingRightWall} grounded={isGrounded} velX={rb.linearVelocityX}");
     }
     
     public void Move(InputAction.CallbackContext context)
