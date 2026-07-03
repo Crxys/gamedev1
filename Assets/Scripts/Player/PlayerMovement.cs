@@ -44,15 +44,30 @@ public class PlayerMovement : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+{
+    // Sprite flipping — purely visual, not physics
+    if (horizontal == 1)
+    {
+        transform.localScale = new Vector3(1f, 1f, 1f);
+    }
+    else if (horizontal == -1)
+    {
+        transform.localScale = new Vector3(-1f, 1f, 1f);
+    }
+
+    // Animation state — should update every rendered frame for smoothness
+    SetAnimation(horizontal);
+}
+    void FixedUpdate()
     {
         if (Mathf.Abs(rb.linearVelocityX) + moveSpeed <= maxMoveSpeed)
         {
-            rb.linearVelocityX += moveSpeed * horizontal;
+            rb.linearVelocityX += moveSpeed * horizontal * Time.fixedDeltaTime;
         }
 
         else if (Mathf.Abs(rb.linearVelocityX) > maxMoveSpeed)
         {
-            rb.linearVelocityX -= 1f * Mathf.Sign(rb.linearVelocityX);
+            rb.linearVelocityX -= 1f * Mathf.Sign(rb.linearVelocityX) * Time.fixedDeltaTime;
         }
 
         else
@@ -60,14 +75,7 @@ public class PlayerMovement : MonoBehaviour
             rb.linearVelocityX = maxMoveSpeed * horizontal;
         }
 
-        if (horizontal == 1)
-        {
-            transform.localScale = new Vector3(1f,1f,1f);
-        }
-        else if (horizontal == -1)
-        {
-            transform.localScale = new Vector3(-1f,1f,1f);
-        }
+        
 
 
         if (Physics2D.OverlapArea(new Vector2(groundCheck.transform.position.x - 0.45f, groundCheck.transform.position.y + 0.05f), new Vector2(groundCheck.transform.position.x + 0.45f, groundCheck.transform.position.y - 0.05f), ground) && jumpResetCoolDown > 0.2)
@@ -130,7 +138,7 @@ public class PlayerMovement : MonoBehaviour
         }
         jumpResetCoolDown += Time.deltaTime;
         dashCooldown += Time.deltaTime;
-        SetAnimation(horizontal);
+
     }
     
     public void Move(InputAction.CallbackContext context)
