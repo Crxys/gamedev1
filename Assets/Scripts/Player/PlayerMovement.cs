@@ -13,14 +13,11 @@ public class PlayerMovement : MonoBehaviour
     private float jumpResetCoolDown = 5f;
     private float jumpBuffer = 0f;
     private bool isGrounded = false;
-    public GameObject groundCheck;
     public LayerMask ground;
     
     // Variables for interacting with walls
     private bool isTouchingLeftWall = false;
-    public GameObject leftWallCheck;
     private bool isTouchingRightWall = false;
-    public GameObject rightWallCheck;
     public bool canWallJump = true;
 
     // Variables for dashing
@@ -63,7 +60,7 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
 
-        if (Mathf.Abs(rb.linearVelocityX) <= maxMoveSpeed)
+        if (Mathf.Abs(rb.linearVelocityX)+maxMoveSpeed <= maxMoveSpeed)
         {
             rb.linearVelocityX += moveSpeed * horizontal * Time.fixedDeltaTime;
             Debug.Log($"case 1:{moveSpeed * horizontal * Time.fixedDeltaTime}, {rb.linearVelocityX}");
@@ -85,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
         
 
 
-        if (Physics2D.OverlapArea(new Vector2(groundCheck.transform.position.x - 0.45f, groundCheck.transform.position.y + 0.05f), new Vector2(groundCheck.transform.position.x + 0.45f, groundCheck.transform.position.y - 0.05f), ground) && jumpResetCoolDown > 0.2)
+        if (Physics2D.OverlapArea(new Vector2(rb.transform.position.x - 0.45f, rb.transform.position.y - 0.45f), new Vector2(rb.transform.position.x + 0.45f, rb.transform.position.y - 0.55f), ground) && jumpResetCoolDown > 0.2)
         {
             jumpCount = maxJumpCount;
             isGrounded = true;
@@ -100,7 +97,7 @@ public class PlayerMovement : MonoBehaviour
                 isGrounded = false;
             }
         }
-        if (Physics2D.OverlapArea(new Vector2(leftWallCheck.transform.position.x-0.05f,leftWallCheck.transform.position.y+0.35f),new Vector2(leftWallCheck.transform.position.x+0.05f,leftWallCheck.transform.position.y-0.35f), ground))
+        if (Physics2D.OverlapArea(new Vector2(rb.transform.position.x-0.5f,rb.transform.position.y+0.35f),new Vector2(rb.transform.position.x-0.4f,rb.transform.position.y-0.35f), ground))
         {
             if (isTouchingLeftWall == false && jumpCount != maxJumpCount && canWallJump)
             {
@@ -122,7 +119,7 @@ public class PlayerMovement : MonoBehaviour
 
         }
 
-        if (Physics2D.OverlapArea(new Vector2(rightWallCheck.transform.position.x - 0.05f, rightWallCheck.transform.position.y + 0.35f), new Vector2(rightWallCheck.transform.position.x + 0.05f, rightWallCheck.transform.position.y - 0.35f), ground))
+        if (Physics2D.OverlapArea(new Vector2(rb.transform.position.x + 0.4f, rb.transform.position.y + 0.35f), new Vector2(rb.transform.position.x + 0.5f, rb.transform.position.y - 0.35f), ground))
         {
             if (isTouchingRightWall == false && jumpCount != maxJumpCount && canWallJump)
             {
@@ -171,12 +168,12 @@ public class PlayerMovement : MonoBehaviour
                 jumpResetCoolDown = 0;
                 if (isTouchingLeftWall && canWallJump && isTouchingRightWall == false)
                 {
-                    rb.linearVelocityX = 20f;
+                    rb.linearVelocityX = 5f;
                     isTouchingLeftWall = false;
                 }
                 if (isTouchingRightWall && canWallJump && isTouchingLeftWall == false)
                 {
-                    rb.linearVelocityX = -20f;
+                    rb.linearVelocityX = -5f;
                     isTouchingRightWall = false;
                 }
             }
@@ -187,7 +184,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (dashCooldown >= 5 && canDash)
         {
-            rb.linearVelocityX = transform.localScale.x*50;
+            rb.linearVelocityX = transform.localScale.x*20;
             dashCooldown = 0f;
         }
         
