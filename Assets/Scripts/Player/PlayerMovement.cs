@@ -22,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
 
     // Variables for dashing
     private float dashCooldown = 0f;
-    private bool canDash = true;
+    private bool canDash = false;
 
     public float moveSpeed = 5f;
     public float maxMoveSpeed = 5f;
