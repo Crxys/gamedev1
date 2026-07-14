@@ -60,23 +60,23 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
 
-        if (Mathf.Abs(rb.linearVelocityX)+maxMoveSpeed <= maxMoveSpeed)
+        if (horizontal != 0)
         {
-            rb.linearVelocityX += moveSpeed * horizontal * Time.fixedDeltaTime;
-            Debug.Log($"case 1:{moveSpeed * horizontal * Time.fixedDeltaTime}, {rb.linearVelocityX}");
-    
+            rb.linearVelocityX = horizontal * moveSpeed;
         }
-
-        else if (Mathf.Abs(rb.linearVelocityX) > maxMoveSpeed)
-        {
-            rb.linearVelocityX -= 1f * Mathf.Sign(rb.linearVelocityX) * Time.fixedDeltaTime;
-            Debug.Log($"case 2:{Mathf.Abs(rb.linearVelocityX)}");
-        }
-
+        // If you are NOT pressing any direction
         else
         {
-            rb.linearVelocityX = maxMoveSpeed * horizontal;
-            Debug.Log($"{maxMoveSpeed * horizontal}");
+            // If you were just dashing (velocity is higher than max speed), gradually slow down
+            if (Mathf.Abs(rb.linearVelocityX) > maxMoveSpeed)
+            {
+                rb.linearVelocityX -= 10f * Mathf.Sign(rb.linearVelocityX) * Time.fixedDeltaTime; 
+            }
+            // Otherwise, instantly stop moving
+            else
+            {
+                rb.linearVelocityX = 0f;
+            }
         }
 
         
