@@ -19,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isTouchingLeftWall = false;
     private bool isTouchingRightWall = false;
     public bool canWallJump = true;
+    private float jumpTime = 0f;
 
     // Variables for dashing
     private float dashCooldown = 0f;
@@ -99,9 +100,9 @@ public class PlayerMovement : MonoBehaviour
         }
         if (Physics2D.OverlapArea(new Vector2(rb.transform.position.x-0.5f,rb.transform.position.y+0.35f),new Vector2(rb.transform.position.x-0.4f,rb.transform.position.y-0.35f), ground))
         {
-            if (isTouchingLeftWall == false && jumpCount != maxJumpCount && canWallJump)
+            if (isTouchingLeftWall == false && jumpCount != maxJumpCount && canWallJump && jumpTime >0.5f)
             {
-                jumpCount++; //explains extra jump when wall jumping, but not when jumping off the ground
+                jumpCount++;
             }
             isTouchingLeftWall = true;
         }
@@ -121,7 +122,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (Physics2D.OverlapArea(new Vector2(rb.transform.position.x + 0.4f, rb.transform.position.y + 0.35f), new Vector2(rb.transform.position.x + 0.5f, rb.transform.position.y - 0.35f), ground))
         {
-            if (isTouchingRightWall == false && jumpCount != maxJumpCount && canWallJump)
+            if (isTouchingRightWall == false && jumpCount != maxJumpCount && canWallJump && jumpTime>0.5f)
             {
                 jumpCount++;
             }
@@ -139,6 +140,12 @@ public class PlayerMovement : MonoBehaviour
                 rb.linearVelocityX = 0f;
             }
 
+        }
+        if (isGrounded || isTouchingRightWall || isTouchingLeftWall) {
+            jumpTime = 0f; }
+        else
+        {
+            jumpTime += Time.fixedDeltaTime;
         }
         jumpResetCoolDown += Time.deltaTime;
         dashCooldown += Time.deltaTime;
@@ -168,14 +175,17 @@ public class PlayerMovement : MonoBehaviour
                 jumpResetCoolDown = 0;
                 if (isTouchingLeftWall && canWallJump && isTouchingRightWall == false)
                 {
-                    rb.linearVelocityX = 5f;
+                    rb.linearVelocityX = 10f;
                     isTouchingLeftWall = false;
+                    jumpCount -= 1;
                 }
                 if (isTouchingRightWall && canWallJump && isTouchingLeftWall == false)
                 {
-                    rb.linearVelocityX = -5f;
+                    rb.linearVelocityX = -10f;
                     isTouchingRightWall = false;
+                    jumpCount -= 1;
                 }
+                jumpTime = 0;
             }
             
         }
@@ -184,7 +194,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (dashCooldown >= 5 && canDash)
         {
-            rb.linearVelocityX = transform.localScale.x*20;
+            rb.linearVelocityX = 20;
             dashCooldown = 0f;
         }
         
