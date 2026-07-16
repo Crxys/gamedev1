@@ -175,13 +175,29 @@ public class PlayerMovement : MonoBehaviour
                 jumpResetCoolDown = 0;
                 if (isTouchingLeftWall && canWallJump && isTouchingRightWall == false)
                 {
-                    rb.linearVelocityX = 10f;
+                    if(horizontal < 0)
+                    {
+                        rb.linearVelocityX = 10f;
+                    }
+                    else
+                    {
+                        rb.linearVelocityX = 0f;
+                    }
+                    
                     isTouchingLeftWall = false;
                     jumpCount -= 1;
                 }
                 if (isTouchingRightWall && canWallJump && isTouchingLeftWall == false)
                 {
-                    rb.linearVelocityX = -10f;
+                    if(horizontal > 0)
+                    {
+                        rb.linearVelocityX = -10f;
+                    }
+                    else
+                    {
+                        rb.linearVelocityX = 0f;
+                    }
+                    
                     isTouchingRightWall = false;
                     jumpCount -= 1;
                 }
