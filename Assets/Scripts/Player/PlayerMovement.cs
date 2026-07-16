@@ -23,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
 
     // Variables for dashing
     private float dashCooldown = 0f;
-    private bool canDash = false;
+    [SerializeField]private bool canDash = false;
 
     public float moveSpeed = 5f;
     public float maxMoveSpeed = 5f;
@@ -61,9 +61,15 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
 
-        if (horizontal != 0)
+        if (horizontal != 0 && rb.linearVelocityX <= maxMoveSpeed)
         {
             rb.linearVelocityX = horizontal * moveSpeed;
+        }
+        else if (horizontal != 0)
+        {
+            if (rb.linearVelocityX != Mathf.Sign(horizontal)){
+                rb.linearVelocityX += horizontal;
+            }
         }
         // If you are NOT pressing any direction
         else
@@ -71,7 +77,7 @@ public class PlayerMovement : MonoBehaviour
             // If you were just dashing (velocity is higher than max speed), gradually slow down
             if (Mathf.Abs(rb.linearVelocityX) > maxMoveSpeed)
             {
-                rb.linearVelocityX -= 10f * Mathf.Sign(rb.linearVelocityX) * Time.fixedDeltaTime; 
+                rb.linearVelocityX -= 10f * Mathf.Sign(rb.linearVelocityX) * Time.fixedDeltaTime;
             }
             // Otherwise, instantly stop moving
             else
@@ -210,7 +216,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (dashCooldown >= 5 && canDash)
         {
-            rb.linearVelocityX = 20;
+            rb.linearVelocityX = transform.localScale.x*20;
             dashCooldown = 0f;
         }
         
