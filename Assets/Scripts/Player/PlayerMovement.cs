@@ -1,5 +1,4 @@
 using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem; 
 public class PlayerMovement : MonoBehaviour
@@ -62,7 +61,7 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
 
-        if (horizontal != 0 && rb.linearVelocityX <= maxMoveSpeed)
+        if (horizontal != 0 && Mathf.Abs(rb.linearVelocityX) <= maxMoveSpeed)
         {
             rb.linearVelocityX = horizontal * moveSpeed;
         }
