@@ -1,4 +1,5 @@
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem; 
 public class PlayerMovement : MonoBehaviour
@@ -67,8 +68,12 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (horizontal != 0)
         {
-            if (rb.linearVelocityX != Mathf.Sign(horizontal)){
+            if (Mathf.Sign(rb.linearVelocityX) != Mathf.Sign(horizontal)){
                 rb.linearVelocityX += horizontal;
+            }
+            else
+            {
+                rb.linearVelocityX -= 10f * Mathf.Sign(rb.linearVelocityX) * Time.fixedDeltaTime;
             }
         }
         // If you are NOT pressing any direction
