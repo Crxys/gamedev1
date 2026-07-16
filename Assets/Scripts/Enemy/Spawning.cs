@@ -7,6 +7,7 @@ public class Spawning : MonoBehaviour
     [SerializeField] private Transform[] spawnPoints;
     [SerializeField] private float spawnInterval = 2f;
     [SerializeField] private int maxEnemies = 5;
+    
     private bool isSpawning = true;
     private int currentEnemyCount = 0;
 

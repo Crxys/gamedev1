@@ -350,6 +350,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   canWallJump: 1
+  canDash: 0
   moveSpeed: 5
   maxMoveSpeed: 5
   rb: {fileID: 4778097157903030561}
@@ -366,7 +367,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
   weaponPivot: {fileID: 2086063484822409716}
-  attackRange: 1.76
+  attackRange: 1.5
   enemyLayers:
     serializedVersion: 2
     m_Bits: 128
