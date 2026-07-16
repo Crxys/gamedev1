@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 3924430338475668256}
   - component: {fileID: 1718306996164872815}
   - component: {fileID: 3944811354393960875}
+  - component: {fileID: -6967226340023537935}
   m_Layer: 8
   m_Name: Player 1
   m_TagString: Untagged
@@ -410,6 +411,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RoomTransitionManager
   screenFader: {fileID: 0}
   cameraManager: {fileID: 0}
+--- !u!114 &-6967226340023537935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 490150068933493463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41608c3fd8c5de0498ce649c0dbe1608, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::playerHealth
+  maxHealth: 3
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  invincibilityDuration: 1
+  invincibilityAlpha: 0.5
+  playerSprite: {fileID: 3422691348996717415}
 --- !u!1 &3594829212171793974
 GameObject:
   m_ObjectHideFlags: 0
