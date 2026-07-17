@@ -7,6 +7,7 @@ public class playerHealth : MonoBehaviour
     [SerializeField] private float maxHealth = 3f;
     private float currentHealth;
     private bool alive = true;
+    private float dashInv = 0f; // This should be updated based on your PlayerMovement script
 
     [SerializeField] private LayerMask enemyLayer; // Set this to "Enemy" in the Inspector
     
@@ -44,6 +45,31 @@ public class playerHealth : MonoBehaviour
         if (cooldownTimer > 0)
         {
             cooldownTimer -= Time.deltaTime;
+            //Debug.Log($"Invincibility Timer: {cooldownTimer}");
+            // Optional visual flash/fade effect
+            if (playerSprite != null)
+            {
+                Color c = playerSprite.color;
+                c.a = invincibilityAlpha;
+                c.b = 0.5f;
+                c.g = 0.5f;
+                playerSprite.color = c;
+            }
+
+            // If the timer just finished, restore full visibility
+            if (cooldownTimer <= 0 && playerSprite != null)
+            {
+                Color c = playerSprite.color;
+                c.a = 1f;
+                c.b = 1f;
+                c.g = 1f;
+                playerSprite.color = c;
+            }
+        }
+        if (dashInv > 0)
+        {
+            dashInv -= Time.deltaTime;
+            //Debug.Log($"Dash Invincibility Timer: {dashInv}");
 
             // Optional visual flash/fade effect
             if (playerSprite != null)
@@ -54,7 +80,7 @@ public class playerHealth : MonoBehaviour
             }
 
             // If the timer just finished, restore full visibility
-            if (cooldownTimer <= 0 && playerSprite != null)
+            if (dashInv <= 0 && playerSprite != null)
             {
                 Color c = playerSprite.color;
                 c.a = 1f;
@@ -78,7 +104,7 @@ public class playerHealth : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (cooldownTimer > 0) return;
+        if (dashInv > 0) return;
         int enemyCount = playerCollider.Overlap(contactFilter, results);
 
         if (enemyCount > 0)
@@ -93,7 +119,7 @@ public class playerHealth : MonoBehaviour
    
     void temporaryInvulnerability()
     {
-        cooldownTimer = 1.75f;
+        dashInv = 1.75f;
     }
     
 }
