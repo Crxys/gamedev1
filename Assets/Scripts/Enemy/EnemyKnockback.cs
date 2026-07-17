@@ -5,7 +5,10 @@ using System.Collections;
 public class EnemyKnockback : MonoBehaviour
 {
     private Rigidbody2D rb;
-    public bool isKnockbackActive { get; private set; } = false;
+    private Coroutine currentKnockbackCoroutine;
+
+    // You can still keep this property if other scripts need to check it!
+    public bool isKnockbackActive => currentKnockbackCoroutine != null;
 
     void Start()
     {
@@ -14,18 +17,23 @@ public class EnemyKnockback : MonoBehaviour
 
     public void Knockback(Vector2 direction, float force, float duration)
     {
-        if (isKnockbackActive) return; 
+        // If already flying back, stop that timer/velocity control immediately
+        if (currentKnockbackCoroutine != null)
+        {
+            StopCoroutine(currentKnockbackCoroutine);
+        }
 
-        StartCoroutine(KnockbackCoroutine(direction, force, duration));
+        // Start the new knockback and store the reference
+        currentKnockbackCoroutine = StartCoroutine(KnockbackCoroutine(direction, force, duration));
     }
 
     private IEnumerator KnockbackCoroutine(Vector2 direction, float force, float duration)
     {
-        isKnockbackActive = true;
         rb.linearVelocity = direction.normalized * force;
 
         yield return new WaitForSeconds(duration);
+
         rb.linearVelocity = Vector2.zero; 
-        isKnockbackActive = false;
+        currentKnockbackCoroutine = null; // Clear the reference when finished
     }
 }
