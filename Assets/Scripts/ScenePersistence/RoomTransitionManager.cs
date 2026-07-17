@@ -6,10 +6,11 @@ public class RoomTransitionManager : MonoBehaviour
 {
     [SerializeField] private ScreenFader screenFader;
     [SerializeField] private CameraManager cameraManager;
-    private string currentRoom = "";
+    private string currentRoom = "Room1";
     void Start()
     {
-        EnterRoom("", "");
+        //EnterRoom("", "");
+        SetupCameraConfiner();
     }
 
     public void EnterRoom(string sceneName, string spawnID)
@@ -46,20 +47,26 @@ public class RoomTransitionManager : MonoBehaviour
     private void SetupRoom(string spawnID)
     {
         SpawnPoint [] spawns = FindObjectsByType<SpawnPoint>(FindObjectsSortMode.None);
-        SpawnPoint spawnToUse = spawns[0];
-
+        //SpawnPoint spawnToUse = spawns[0];
+        if(spawns.Length == 0)
+        {
+            Debug.LogWarning("No spawn points found in the scene.");
+            return;
+        }
         if(!string.IsNullOrEmpty(spawnID))
         {
             foreach(SpawnPoint spawn in spawns)
             {
                 if(spawn.spawnID == spawnID)
                 {
-                    spawnToUse = spawn;
-                    transform.position = spawnToUse.transform.position;
+                    //spawnToUse = spawn;
+                    transform.position = spawn.transform.position;
                     break;
                 }
             }
+            
         }
+
     }
 
     private void SetupCameraConfiner()

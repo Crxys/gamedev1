@@ -10,7 +10,12 @@ public class Door : MonoBehaviour
         RoomTransitionManager manager = collision.GetComponent<RoomTransitionManager>();
         if (manager != null)
         {
+            Debug.Log($"Entering room: {TargetScene} with spawn ID: {SpawnID}");
             manager.EnterRoom(TargetScene, SpawnID);
+        }
+        else
+        {
+            Debug.LogWarning("RoomTransitionManager not found on the colliding object.");
         }
     }
 }

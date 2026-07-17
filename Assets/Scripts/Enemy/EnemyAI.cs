@@ -6,8 +6,8 @@ public class EnemyAI : MonoBehaviour
     private int myID;
     private Rigidbody2D me;
     public PlayerMovement player;
-    private float jumpforce = 10f;
-    private float maxMoveSpeed = 5f;
+    [SerializeField] private float jumpforce = 10f;
+    [SerializeField] private float maxMoveSpeed = 5f;
     private bool isGrounded = false;
     public LayerMask ground;
     private EnemyKnockback enemyPhysics;
