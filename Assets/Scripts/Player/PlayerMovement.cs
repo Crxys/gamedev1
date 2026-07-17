@@ -93,7 +93,7 @@ public class PlayerMovement : MonoBehaviour
         
 
 
-        if (Physics2D.OverlapArea(new Vector2(rb.transform.position.x - 0.45f, rb.transform.position.y - 0.45f), new Vector2(rb.transform.position.x + 0.45f, rb.transform.position.y - 0.55f), ground) && jumpResetCoolDown > 0.2)
+        if (Physics2D.OverlapArea(new Vector2(rb.transform.position.x - 0.3f, rb.transform.position.y - 0.45f), new Vector2(rb.transform.position.x + 0.3f, rb.transform.position.y - 0.55f), ground) && jumpResetCoolDown > 0.2)
         {
             jumpCount = maxJumpCount;
             isGrounded = true;
@@ -108,13 +108,23 @@ public class PlayerMovement : MonoBehaviour
                 isGrounded = false;
             }
         }
+        Debug.Log("horizontal: " + horizontal);
         if (Physics2D.OverlapArea(new Vector2(rb.transform.position.x-0.5f,rb.transform.position.y+0.35f),new Vector2(rb.transform.position.x-0.4f,rb.transform.position.y-0.35f), ground))
         {
-            if (isTouchingLeftWall == false && jumpCount != maxJumpCount && canWallJump && jumpTime >0.5f)
+            if(horizontal < 0)
             {
-                jumpCount++;
+                if (isTouchingLeftWall == false && jumpCount != maxJumpCount && canWallJump ) //removed && jumpTime >0.5f
+                {
+                    jumpCount = maxJumpCount;
+                    
+                }
+                isTouchingLeftWall = true;
+
             }
-            isTouchingLeftWall = true;
+            else
+            {
+                isTouchingLeftWall = false; //not sure if this is needed, but it should be fine
+            }
         }
         else
         {
@@ -132,11 +142,20 @@ public class PlayerMovement : MonoBehaviour
 
         if (Physics2D.OverlapArea(new Vector2(rb.transform.position.x + 0.4f, rb.transform.position.y + 0.35f), new Vector2(rb.transform.position.x + 0.5f, rb.transform.position.y - 0.35f), ground))
         {
-            if (isTouchingRightWall == false && jumpCount != maxJumpCount && canWallJump && jumpTime>0.5f)
+            if (horizontal > 0) //removed && jumpTime>0.5f
             {
-                jumpCount++;
+                if(isTouchingRightWall == false && jumpCount != maxJumpCount && canWallJump)
+                {
+                    jumpCount = maxJumpCount;
+                }
+                isTouchingRightWall = true;
+                Debug.Log("Touching right wall");
             }
-            isTouchingRightWall = true;
+            else
+            {
+                isTouchingRightWall = false; //not sure if this is needed, but it should be fine
+            }
+            
         }
         else
         {
