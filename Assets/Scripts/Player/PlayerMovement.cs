@@ -23,8 +23,15 @@ public class PlayerMovement : MonoBehaviour
     private float jumpTime = 0f;
 
     // Variables for dashing
-    private float dashCooldown = 0f;
     [SerializeField]private bool canDash = false;
+    [SerializeField] private float dashForce = 20f;
+    [SerializeField] private float dashCooldownTime = 1f;
+    [SerializeField] private float dashDuration = 0.2f;
+    private int maxDashCount = 1;
+    private int dashCount = 1;
+    private float dashCooldown = 5f;
+    private float isDashing = 0f;
+    float originalGravity = 1f;
     public delegate void playerDash();
     public static event playerDash playerDashed;
 
@@ -41,28 +48,38 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        originalGravity = rb.gravityScale;
     }
 
     // Update is called once per frame
     void Update()
-{
-    // Sprite flipping — purely visual, not physics
-    if (horizontal == 1)
     {
-        transform.localScale = new Vector3(1f, 1f, 1f);
-    }
-    else if (horizontal == -1)
-    {
-        transform.localScale = new Vector3(-1f, 1f, 1f);
-    }
+        if(isDashing > 0) //maybe remove
+        {
+            return; // Skip movement logic while dashing
+        }
+        else
+        {
+            rb.gravityScale = originalGravity; // Restore gravity when not dashing
+        }
+        // Sprite flipping — purely visual, not physics
+        if (horizontal == 1)
+        {
+            transform.localScale = new Vector3(1f, 1f, 1f);
+        }
+        else if (horizontal == -1)
+        {
+            transform.localScale = new Vector3(-1f, 1f, 1f);
+        }
 
-    // Animation state — should update every rendered frame for smoothness
-    SetAnimation(horizontal);
-    // end of Update
-    //Debug.Log($"[Update] vX={rb.linearVelocityX}, pos={transform.position}");
-}
+        // Animation state — should update every rendered frame for smoothness
+        SetAnimation(horizontal);
+        // end of Update
+        //Debug.Log($"[Update] vX={rb.linearVelocityX}, pos={transform.position}");
+    }
     void FixedUpdate()
     {
+        
 
         if (horizontal != 0 && Mathf.Abs(rb.linearVelocityX) <= maxMoveSpeed)
         {
@@ -99,6 +116,7 @@ public class PlayerMovement : MonoBehaviour
         if (Physics2D.OverlapArea(new Vector2(rb.transform.position.x - 0.3f, rb.transform.position.y - 0.45f), new Vector2(rb.transform.position.x + 0.3f, rb.transform.position.y - 0.55f), ground) && jumpResetCoolDown > 0.2)
         {
             jumpCount = maxJumpCount;
+            dashCount = maxDashCount;
             isGrounded = true;
             jumpBuffer = 0f;
         }
@@ -111,7 +129,7 @@ public class PlayerMovement : MonoBehaviour
                 isGrounded = false;
             }
         }
-        Debug.Log("horizontal: " + horizontal);
+        //Debug.Log("horizontal: " + horizontal);
         if (Physics2D.OverlapArea(new Vector2(rb.transform.position.x-0.5f,rb.transform.position.y+0.35f),new Vector2(rb.transform.position.x-0.4f,rb.transform.position.y-0.35f), ground))
         {
             if(horizontal < 0)
@@ -119,6 +137,7 @@ public class PlayerMovement : MonoBehaviour
                 if (isTouchingLeftWall == false && jumpCount != maxJumpCount && canWallJump ) //removed && jumpTime >0.5f
                 {
                     jumpCount = maxJumpCount;
+                    dashCount = maxDashCount;
                     
                 }
                 isTouchingLeftWall = true;
@@ -150,9 +169,10 @@ public class PlayerMovement : MonoBehaviour
                 if(isTouchingRightWall == false && jumpCount != maxJumpCount && canWallJump)
                 {
                     jumpCount = maxJumpCount;
+                    dashCount = maxDashCount;
                 }
                 isTouchingRightWall = true;
-                Debug.Log("Touching right wall");
+                //Debug.Log("Touching right wall");
             }
             else
             {
@@ -181,6 +201,7 @@ public class PlayerMovement : MonoBehaviour
         }
         jumpResetCoolDown += Time.deltaTime;
         dashCooldown += Time.deltaTime;
+        isDashing -= Time.deltaTime;
         // end of FixedUpdate, after all velocity-setting code
         //Debug.Log($"[FixedUpdate] vX={rb.linearVelocityX}, pos={transform.position}");
         //Debug.Log($"L={isTouchingLeftWall} R={isTouchingRightWall} grounded={isGrounded} velX={rb.linearVelocityX}");
@@ -240,14 +261,21 @@ public class PlayerMovement : MonoBehaviour
     }
     public void Dash(InputAction.CallbackContext context)
     {
-        if (dashCooldown >= 5 && canDash)
+        if (dashCooldown >= dashCooldownTime && canDash && dashCount > 0)
         {
-            rb.linearVelocityX = transform.localScale.x*20;
+            isDashing = dashDuration;
+            dashCount -= 1;
+
+            rb.gravityScale = 0f; // Disable gravity during dash
+            rb.linearVelocityY = 0f; // Optional: Reset vertical velocity to prevent upward
+
+            rb.linearVelocityX = transform.localScale.x*dashForce;
             dashCooldown = 0f;
             playerDashed.Invoke();
         }
         
     }
+    
 
     private void SetAnimation(float horizontal)
     {

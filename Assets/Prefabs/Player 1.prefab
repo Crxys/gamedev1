@@ -350,7 +350,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   canWallJump: 1
-  canDash: 0
+  canDash: 1
+  dashForce: 15
+  dashCooldownTime: 1
   moveSpeed: 5
   maxMoveSpeed: 5
   rb: {fileID: 4778097157903030561}
