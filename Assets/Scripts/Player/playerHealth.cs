@@ -33,7 +33,9 @@ public class playerHealth : MonoBehaviour
         contactFilter.layerMask = enemyLayer;
         
         // CRITICAL: Tells Unity to check overlaps even if normal collision is turned off
-        contactFilter.useTriggers = true; 
+        contactFilter.useTriggers = true;
+
+        PlayerMovement.playerDashed += temporaryInvulnerability;
     }
 
     // Update is called once per frame
@@ -87,5 +89,10 @@ public class playerHealth : MonoBehaviour
             //Damage(1f); //change based off of enemy damage
             
         }
+    }
+   
+    void temporaryInvulnerability()
+    {
+        cooldownTimer = 1.75f;
     }
 }

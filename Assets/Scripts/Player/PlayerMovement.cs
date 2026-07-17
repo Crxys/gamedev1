@@ -1,6 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem; 
+using UnityEngine.InputSystem;
+using UnityEngine.Events;
 public class PlayerMovement : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -24,6 +25,8 @@ public class PlayerMovement : MonoBehaviour
     // Variables for dashing
     private float dashCooldown = 0f;
     [SerializeField]private bool canDash = false;
+    public delegate void playerDash();
+    public static event playerDash playerDashed;
 
     public float moveSpeed = 5f;
     public float maxMoveSpeed = 5f;
@@ -241,6 +244,7 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.linearVelocityX = transform.localScale.x*20;
             dashCooldown = 0f;
+            playerDashed.Invoke();
         }
         
     }
