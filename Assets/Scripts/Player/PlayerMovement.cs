@@ -65,11 +65,11 @@ public class PlayerMovement : MonoBehaviour
         // Sprite flipping — purely visual, not physics
         if (horizontal == 1)
         {
-            transform.localScale = new Vector3(1f, 1f, 1f);
+            transform.localScale = new Vector3(0.25f, 0.25f, 1f);
         }
         else if (horizontal == -1)
         {
-            transform.localScale = new Vector3(-1f, 1f, 1f);
+            transform.localScale = new Vector3(-0.25f, 0.25f, 1f);
         }
 
         // Animation state — should update every rendered frame for smoothness
@@ -113,7 +113,7 @@ public class PlayerMovement : MonoBehaviour
         
 
 
-        if (Physics2D.OverlapArea(new Vector2(rb.transform.position.x - 0.3f, rb.transform.position.y - 0.45f), new Vector2(rb.transform.position.x + 0.3f, rb.transform.position.y - 0.55f), ground) && jumpResetCoolDown > 0.2)
+        if (Physics2D.OverlapArea(new Vector2(rb.transform.position.x - 0.3f, rb.transform.position.y - 2.7675f), new Vector2(rb.transform.position.x + 0.3f, rb.transform.position.y - 2.8675f), ground) && jumpResetCoolDown > 0.2)
         {
             jumpCount = maxJumpCount;
             dashCount = maxDashCount;
@@ -279,6 +279,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void SetAnimation(float horizontal)
     {
+        animator.Play("Idle"); // For testing purposes, always play Idle animation.
+        /*
         if (isGrounded)
         {
             if(Mathf.Abs(horizontal) > 0)
@@ -301,5 +303,6 @@ public class PlayerMovement : MonoBehaviour
                 animator.Play("Fall");
             }
         }
+        */
     }
 }
