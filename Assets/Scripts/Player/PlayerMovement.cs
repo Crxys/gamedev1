@@ -32,7 +32,7 @@ public class PlayerMovement : MonoBehaviour
     private float dashCooldown = 5f;
     private float isDashing = 0f;
     float originalGravity = 1f;
-    public delegate void playerDash();
+    public delegate void playerDash(float invincibilityDuration);
     public static event playerDash playerDashed;
 
     public float moveSpeed = 5f;
@@ -271,7 +271,7 @@ public class PlayerMovement : MonoBehaviour
 
             rb.linearVelocityX = transform.localScale.x*dashForce;
             dashCooldown = 0f;
-            playerDashed.Invoke();
+            playerDashed.Invoke(dashDuration);
         }
         
     }

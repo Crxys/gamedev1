@@ -117,9 +117,9 @@ public class playerHealth : MonoBehaviour
         }
     }
    
-    void temporaryInvulnerability()
+    void temporaryInvulnerability(float invincibilityDuration)
     {
-        dashInv = 1.75f;
+        dashInv = invincibilityDuration;
     }
     
 }
