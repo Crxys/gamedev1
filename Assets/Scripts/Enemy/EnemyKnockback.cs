@@ -21,6 +21,7 @@ public class EnemyKnockback : MonoBehaviour
         if (currentKnockbackCoroutine != null)
         {
             StopCoroutine(currentKnockbackCoroutine);
+            
         }
 
         // Start the new knockback and store the reference
