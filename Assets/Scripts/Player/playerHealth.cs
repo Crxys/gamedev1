@@ -22,10 +22,17 @@ public class playerHealth : MonoBehaviour
     [SerializeField] private float invincibilityAlpha = 0.5f;
     [SerializeField] private SpriteRenderer playerSprite; // Assign the player's sprite renderer in the
     private float cooldownTimer = 0f;
+    private PlayerMovement playerMovement;
+
+    [Header("Knockback Settings")]
+    [SerializeField] private float knockbackForce = 12f;
+    [SerializeField] private float knockbackDuration = 0.18f;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         currentHealth = maxHealth;
+        playerMovement = GetComponent<PlayerMovement>();
         // Get the player's physical 2D collider
         playerCollider = GetComponent<Collider2D>();
 
@@ -107,13 +114,22 @@ public class playerHealth : MonoBehaviour
         if (dashInv > 0) return;
         int enemyCount = playerCollider.Overlap(contactFilter, results);
 
-        if (enemyCount > 0)
+        if (enemyCount > 0 && cooldownTimer <= 0f)
         {
             // The player is currently touching at least one enemy clone
             cooldownTimer = invincibilityDuration; // Start the invincibility timer
             Debug.Log("Took damage!");
-            //Damage(1f); //change based off of enemy damage
-            
+            Damage(1f); // change based off of enemy damage
+
+            if (playerMovement != null)
+            {
+                Collider2D enemyCollider = results[0];
+                if (enemyCollider != null)
+                {
+                    Vector2 knockbackDirection = (transform.position - enemyCollider.transform.position).normalized;
+                    playerMovement.ApplyKnockback(knockbackDirection, knockbackForce, knockbackDuration);
+                }
+            }
         }
     }
    

@@ -43,6 +43,11 @@ public class PlayerMovement : MonoBehaviour
     //public InputActionReference moveAction;
     private Vector2 moveInput;
 
+    // Knockback state
+    private bool isKnockedBack = false;
+    private float knockbackTimeRemaining = 0f;
+    private Vector2 knockbackVelocity = Vector2.zero;
+
     private Animator animator;
     void Start()
     {
@@ -77,9 +82,36 @@ public class PlayerMovement : MonoBehaviour
         // end of Update
         //Debug.Log($"[Update] vX={rb.linearVelocityX}, pos={transform.position}");
     }
+
+    public void ApplyKnockback(Vector2 direction, float strength, float duration)
+    {
+        if (direction == Vector2.zero)
+            return;
+
+        isKnockedBack = true;
+        knockbackTimeRemaining = duration;
+        knockbackVelocity = direction.normalized * strength;
+
+        rb.velocity = new Vector2(knockbackVelocity.x, knockbackVelocity.y);
+    }
     void FixedUpdate()
     {
         
+
+        if (isKnockedBack)
+        {
+            knockbackTimeRemaining -= Time.fixedDeltaTime;
+            if (knockbackTimeRemaining <= 0f)
+            {
+                isKnockedBack = false;
+                knockbackVelocity = Vector2.zero;
+            }
+            else
+            {
+                rb.velocity = new Vector2(knockbackVelocity.x, rb.velocity.y);
+                return;
+            }
+        }
 
         if (horizontal != 0 && Mathf.Abs(rb.linearVelocityX) <= maxMoveSpeed)
         {
