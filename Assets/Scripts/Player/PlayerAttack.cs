@@ -15,7 +15,7 @@ public class PlayerAttack : MonoBehaviour
 
     [Header("Scripted Animation Properties")]
     public float swingAngle = 110f;
-    public float swingDuration = 0.15f; 
+    public float swingDuration = 0.1f; 
     private Transform automaticAttackPoint; 
     private bool isSwinging = false;
     private Quaternion originalRotation;
@@ -106,6 +106,7 @@ public class PlayerAttack : MonoBehaviour
                 playerPos.y = 0;
 
                 Vector2 direction = (enemyPos - playerPos).normalized;
+                direction.x = Mathf.Abs(direction.x) * Mathf.Sign(transform.localScale.x);
                 kb.Knockback(direction, baseKnockbackForce, baseKnockbackDuration);
             }
 
