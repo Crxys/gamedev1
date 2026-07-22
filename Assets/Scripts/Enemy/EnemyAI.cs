@@ -23,6 +23,15 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
+        if (me.linearVelocityX < 0)
+        {
+            transform.localScale = new Vector3(0.25f, 0.25f, 1f);
+        }
+        else if (me.linearVelocityX > 0)
+        {
+            transform.localScale = new Vector3(-0.25f, 0.25f, 1f);
+        }
+        
     }
 
     void FixedUpdate()
