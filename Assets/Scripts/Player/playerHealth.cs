@@ -101,7 +101,7 @@ public class playerHealth : MonoBehaviour
     {
         hasBeenHit = true;
         currentHealth -= damageAmount;
-        if(currentHealth <= 0f)
+        if(currentHealth <= 0f && alive)
         {
             OnDeath.Invoke();
             alive = false;

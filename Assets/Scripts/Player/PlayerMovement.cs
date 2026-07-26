@@ -92,7 +92,7 @@ public class PlayerMovement : MonoBehaviour
         knockbackTimeRemaining = duration;
         knockbackVelocity = direction.normalized * strength;
 
-        rb.velocity = new Vector2(knockbackVelocity.x, knockbackVelocity.y);
+        rb.linearVelocity = new Vector2(knockbackVelocity.x, knockbackVelocity.y);
     }
     void FixedUpdate()
     {
@@ -108,7 +108,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-                rb.velocity = new Vector2(knockbackVelocity.x, rb.velocity.y);
+                rb.linearVelocity = new Vector2(knockbackVelocity.x, rb.linearVelocity.y);
                 return;
             }
         }
