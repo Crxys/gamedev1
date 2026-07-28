@@ -103,7 +103,7 @@ public class playerHealth : MonoBehaviour
         currentHealth -= damageAmount;
         if(currentHealth <= 0f && alive)
         {
-            OnDeath.Invoke();
+            //OnDeath.Invoke();
             alive = false;
         }
     }
