@@ -8,10 +8,12 @@ public class EnemyAI : MonoBehaviour
     public PlayerMovement player;
     [SerializeField] private float jumpforce = 10f;
     [SerializeField] private float maxMoveSpeed = 5f;
+    [SerializeField] private float size = 0.25f;
     private bool isGrounded = false;
     public LayerMask ground;
     private EnemyKnockback enemyPhysics;
     private float horizontal = 0f;
+    
 
     void Start()
     {
@@ -26,11 +28,11 @@ public class EnemyAI : MonoBehaviour
     {
         if (horizontal < 0)
         {
-            transform.localScale = new Vector3(0.25f, 0.25f, 1f);
+            transform.localScale = new Vector3(size, size, 1f);
         }
         else if (horizontal > 0)
         {
-            transform.localScale = new Vector3(-0.25f, 0.25f, 1f);
+            transform.localScale = new Vector3(-size, size, 1f);
         }
         
     }
