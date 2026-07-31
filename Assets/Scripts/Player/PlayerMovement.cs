@@ -311,7 +311,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void SetAnimation(float horizontal)
     {
-        animator.Play("Idle"); // For testing purposes, always play Idle animation.
+        if(Mathf.Abs(horizontal) > 0)
+            {
+                animator.Play("Run");
+            }
+            else
+            {
+                animator.Play("Idle");
+            }
         /*
         if (isGrounded)
         {
