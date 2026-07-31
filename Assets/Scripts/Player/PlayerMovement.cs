@@ -24,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
 
     // Variables for dashing
     [SerializeField]private bool canDash = false;
-    [SerializeField] private float dashForce = 20f;
+    [SerializeField] private float dashForce = 25f;
     [SerializeField] private float dashCooldownTime = 1f;
     [SerializeField] private float dashDuration = 0.75f;
     private int maxDashCount = 1;
@@ -309,11 +309,11 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-                rb.linearVelocityX = transform.localScale.x * Mathf.Sqrt(2)*dashForce;
-                rb.linearVelocityY = Mathf.Sign(vertical) * transform.localScale.y * Mathf.Sqrt(2) * dashForce;
+                rb.linearVelocityX = transform.localScale.x * dashForce /Mathf.Sqrt(2);
+                rb.linearVelocityY = Mathf.Sign(vertical) * transform.localScale.y * dashForce / Mathf.Sqrt(2);
             }
 
-                dashCooldown = 0f;
+            dashCooldown = 0f;
             playerDashed.Invoke(dashDuration);
         }
         
