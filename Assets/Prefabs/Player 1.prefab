@@ -353,7 +353,7 @@ MonoBehaviour:
   canDash: 1
   dashForce: 25
   dashCooldownTime: 1
-  dashDuration: 1.5
+  dashDuration: 0.3
   moveSpeed: 5
   maxMoveSpeed: 5
   rb: {fileID: 4778097157903030561}
