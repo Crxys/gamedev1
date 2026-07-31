@@ -309,8 +309,8 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-                rb.linearVelocityX = transform.localScale.x * Mathf.Sqrt(dashForce * dashForce / 2);
-                rb.linearVelocityY=(Mathf.Sign(vertical) * Mathf.Sqrt(dashForce * dashForce / 2));
+                rb.linearVelocityX = transform.localScale.x * Mathf.Sqrt(2)*dashForce;
+                rb.linearVelocityY = Mathf.Sign(vertical) * transform.localScale.y * Mathf.Sqrt(2) * dashForce;
             }
 
                 dashCooldown = 0f;
