@@ -351,7 +351,7 @@ MonoBehaviour:
     m_Bits: 64
   canWallJump: 1
   canDash: 1
-  dashForce: 25
+  dashForce: 50
   dashCooldownTime: 1
   dashDuration: 0.3
   moveSpeed: 5
