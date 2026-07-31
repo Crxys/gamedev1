@@ -23,10 +23,10 @@ public class PlayerMovement : MonoBehaviour
     private float jumpTime = 0f;
 
     // Variables for dashing
-    [SerializeField]private bool canDash = false;
-    [SerializeField] private float dashForce = 25f;
-    [SerializeField] private float dashCooldownTime = 1f;
-    [SerializeField] private float dashDuration = 0.75f;
+    private bool canDash = true;
+    private float dashForce = 50f;
+    private float dashCooldownTime = 5f;
+     private float dashDuration = 0.3f;
     private int maxDashCount = 1;
     private int dashCount = 1;
     private float dashCooldown = 5f;
