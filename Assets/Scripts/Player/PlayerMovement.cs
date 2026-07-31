@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]private bool canDash = false;
     [SerializeField] private float dashForce = 20f;
     [SerializeField] private float dashCooldownTime = 1f;
-    [SerializeField] private float dashDuration = 0.2f;
+    [SerializeField] private float dashDuration = 0.75f;
     private int maxDashCount = 1;
     private int dashCount = 1;
     private float dashCooldown = 5f;
@@ -96,7 +96,7 @@ public class PlayerMovement : MonoBehaviour
     }
     void FixedUpdate()
     {
-        
+
 
         if (isKnockedBack)
         {
@@ -112,33 +112,36 @@ public class PlayerMovement : MonoBehaviour
                 return;
             }
         }
-
-        if (horizontal != 0 && Mathf.Abs(rb.linearVelocityX) <= maxMoveSpeed)
+        if (isDashing <= 0)
         {
-            rb.linearVelocityX = horizontal * moveSpeed;
-        }
-        else if (horizontal != 0)
-        {
-            if (Mathf.Sign(rb.linearVelocityX) != Mathf.Sign(horizontal)){
-                rb.linearVelocityX += horizontal;
+            if (horizontal != 0 && Mathf.Abs(rb.linearVelocityX) <= maxMoveSpeed)
+            {
+                rb.linearVelocityX = horizontal * moveSpeed;
             }
+            else if (horizontal != 0)
+            {
+                if (Mathf.Sign(rb.linearVelocityX) != Mathf.Sign(horizontal))
+                {
+                    rb.linearVelocityX += horizontal;
+                }
+                else
+                {
+                    rb.linearVelocityX -= 10f * Mathf.Sign(rb.linearVelocityX) * Time.fixedDeltaTime;
+                }
+            }
+            // If you are NOT pressing any direction
             else
             {
-                rb.linearVelocityX -= 10f * Mathf.Sign(rb.linearVelocityX) * Time.fixedDeltaTime;
-            }
-        }
-        // If you are NOT pressing any direction
-        else
-        {
-            // If you were just dashing (velocity is higher than max speed), gradually slow down
-            if (Mathf.Abs(rb.linearVelocityX) > maxMoveSpeed)
-            {
-                rb.linearVelocityX -= 10f * Mathf.Sign(rb.linearVelocityX) * Time.fixedDeltaTime;
-            }
-            // Otherwise, instantly stop moving
-            else
-            {
-                rb.linearVelocityX = 0f;
+                // If you were just dashing (velocity is higher than max speed), gradually slow down
+                if (Mathf.Abs(rb.linearVelocityX) > maxMoveSpeed)
+                {
+                    rb.linearVelocityX -= 10f * Mathf.Sign(rb.linearVelocityX) * Time.fixedDeltaTime;
+                }
+                // Otherwise, instantly stop moving
+                else
+                {
+                    rb.linearVelocityX = 0f;
+                }
             }
         }
 
@@ -247,7 +250,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void Jump(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.performed && isDashing<=0)
         {
             if (jumpCount > 0 || ((isTouchingLeftWall || isTouchingRightWall) && canWallJump)) 
             {
@@ -300,9 +303,17 @@ public class PlayerMovement : MonoBehaviour
 
             rb.gravityScale = 0f; // Disable gravity during dash
             rb.linearVelocityY = 0f; // Optional: Reset vertical velocity to prevent upward
+            if (vertical == 0)
+            {
+                rb.linearVelocityX = transform.localScale.x*dashForce;
+            }
+            else
+            {
+                rb.linearVelocityX = transform.localScale.x * Mathf.Sqrt(dashForce * dashForce / 2);
+                rb.linearVelocityY=(Mathf.Sign(vertical) * Mathf.Sqrt(dashForce * dashForce / 2));
+            }
 
-            rb.linearVelocityX = transform.localScale.x*dashForce;
-            dashCooldown = 0f;
+                dashCooldown = 0f;
             playerDashed.Invoke(dashDuration);
         }
         

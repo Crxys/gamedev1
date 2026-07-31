@@ -139,7 +139,7 @@ BoxCollider2D:
   m_Offset: {x: 0, y: -0.47723627}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.555, y: 0.417}
     oldSize: {x: 20.64, y: 11.88211}
     newSize: {x: 20.64, y: 11.88211}
     adaptiveTilingThreshold: 0.5
@@ -353,7 +353,7 @@ MonoBehaviour:
   canDash: 1
   dashForce: 25
   dashCooldownTime: 1
-  dashDuration: 0.2
+  dashDuration: 1.5
   moveSpeed: 5
   maxMoveSpeed: 5
   rb: {fileID: 4778097157903030561}
@@ -434,6 +434,8 @@ MonoBehaviour:
   invincibilityDuration: 1
   invincibilityAlpha: 0.5
   playerSprite: {fileID: 3422691348996717415}
+  knockbackForce: 12
+  knockbackDuration: 0.18
 --- !u!1 &3594829212171793974
 GameObject:
   m_ObjectHideFlags: 0
