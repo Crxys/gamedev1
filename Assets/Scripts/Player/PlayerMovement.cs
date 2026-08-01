@@ -30,7 +30,8 @@ public class PlayerMovement : MonoBehaviour
     private int maxDashCount = 1;
     private int dashCount = 1;
     private float dashCooldown = 5f;
-    private float isDashing = 0f;
+    public float isDashing = 0f;
+    
     float originalGravity = 1f;
     public delegate void playerDash(float invincibilityDuration);
     public static event playerDash playerDashed;
@@ -313,7 +314,7 @@ public class PlayerMovement : MonoBehaviour
                 rb.linearVelocityY = Mathf.Sign(vertical) * transform.localScale.y * dashForce / Mathf.Sqrt(2);
             }
 
-            dashCooldown = 0f;
+            //dashCooldown = 0f;
             playerDashed.Invoke(dashDuration);
         }
         

@@ -184,6 +184,7 @@ MonoBehaviour:
   player: {fileID: 0}
   jumpforce: 10
   maxMoveSpeed: 5
+  size: 0.25
   ground:
     serializedVersion: 2
     m_Bits: 64
@@ -200,6 +201,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   maxHealth: 5
+  characterRenderer: {fileID: 5482711511052525257}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!114 &-7144374592937890340
 MonoBehaviour:
   m_ObjectHideFlags: 0
