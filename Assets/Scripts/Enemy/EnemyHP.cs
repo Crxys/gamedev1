@@ -39,7 +39,7 @@ public class EnemyHP : MonoBehaviour, IDamageable
         if(playerCount > 0 && player.isDashing > 0f)
         {
             //Debug.Log($"Enemy hit by player dash! Paint level: {paintLevel}");
-            Damage(paintLevel*paintLevel/3f); // Damage is proportional to the square of the paint level
+            Damage(paintLevel*paintLevel/2f); // Damage is proportional to the square of the paint level
             paintLevel = 0f;
         }
     }

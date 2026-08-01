@@ -31,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
     private int dashCount = 1;
     private float dashCooldown = 5f;
     public float isDashing = 0f;
-    
+    private float extraInv = 1f; // Extra invincibility time after dash, can be modified by power-ups
     float originalGravity = 1f;
     public delegate void playerDash(float invincibilityDuration);
     public static event playerDash playerDashed;
@@ -99,7 +99,10 @@ public class PlayerMovement : MonoBehaviour
     {
 
 
-        if (isKnockedBack)
+        
+        if (isDashing <= 0)
+        {
+            if (isKnockedBack)
         {
             knockbackTimeRemaining -= Time.fixedDeltaTime;
             if (knockbackTimeRemaining <= 0f)
@@ -113,8 +116,6 @@ public class PlayerMovement : MonoBehaviour
                 return;
             }
         }
-        if (isDashing <= 0)
-        {
             if (horizontal != 0 && Mathf.Abs(rb.linearVelocityX) <= maxMoveSpeed)
             {
                 rb.linearVelocityX = horizontal * moveSpeed;
@@ -297,7 +298,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void Dash(InputAction.CallbackContext context)
     {
-        if (dashCooldown >= dashCooldownTime && canDash && dashCount > 0)
+        if (canDash && dashCount > 0) //dashCooldown >= dashCooldownTime && 
         {
             isDashing = dashDuration;
             dashCount -= 1;
@@ -315,7 +316,7 @@ public class PlayerMovement : MonoBehaviour
             }
 
             //dashCooldown = 0f;
-            playerDashed.Invoke(dashDuration);
+            playerDashed.Invoke(dashDuration + extraInv);
         }
         
     }
