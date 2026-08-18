@@ -8,7 +8,7 @@ public class PlayerAttack : MonoBehaviour
     public float attackRange = 1.5f;    
     public LayerMask enemyLayers;       
     public float attackDamage = 1.0f;   
-
+    
     [Header("Knockback Settings")]
     public float baseKnockbackForce = 18f;
     public float baseKnockbackDuration = 0.25f;

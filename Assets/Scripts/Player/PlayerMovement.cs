@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
     private float jumpBuffer = 0f;
     private bool isGrounded = false;
     public LayerMask ground;
-    
+    public float flow = 0.0f;
     // Variables for interacting with walls
     private bool isTouchingLeftWall = false;
     private bool isTouchingRightWall = false;
@@ -97,9 +97,15 @@ public class PlayerMovement : MonoBehaviour
     }
     void FixedUpdate()
     {
-
-
-        
+        if(horizontal == 0)
+        {
+            flow = flow/2f;
+            Debug.Log("no flow");
+        }
+        else
+        {
+            flow += Time.fixedDeltaTime;
+        }
         if (isDashing <= 0)
         {
             if (isKnockedBack)
@@ -116,9 +122,9 @@ public class PlayerMovement : MonoBehaviour
                 return;
             }
         }
-            if (horizontal != 0 && Mathf.Abs(rb.linearVelocityX) <= maxMoveSpeed)
+            if (horizontal != 0 && Mathf.Abs(rb.linearVelocityX) <= maxMoveSpeed+flow*0.5f)
             {
-                rb.linearVelocityX = horizontal * moveSpeed;
+                rb.linearVelocityX = horizontal * (moveSpeed+ flow*0.5f); // Add a small acceleration factor based on how long the player has been moving
             }
             else if (horizontal != 0)
             {
@@ -135,7 +141,7 @@ public class PlayerMovement : MonoBehaviour
             else
             {
                 // If you were just dashing (velocity is higher than max speed), gradually slow down
-                if (Mathf.Abs(rb.linearVelocityX) > maxMoveSpeed)
+                if (Mathf.Abs(rb.linearVelocityX) > maxMoveSpeed+flow*0.5f)
                 {
                     rb.linearVelocityX -= 10f * Mathf.Sign(rb.linearVelocityX) * Time.fixedDeltaTime;
                 }
@@ -150,7 +156,7 @@ public class PlayerMovement : MonoBehaviour
         
 
 
-        if (Physics2D.OverlapArea(new Vector2(rb.transform.position.x - 0.3f, rb.transform.position.y - 2.7675f), new Vector2(rb.transform.position.x + 0.3f, rb.transform.position.y - 2.8675f), ground) && jumpResetCoolDown > 0.2)
+        if (Physics2D.OverlapArea(new Vector2(rb.transform.position.x - 0.3f, rb.transform.position.y - 2.7675f), new Vector2(rb.transform.position.x + 0.3f, rb.transform.position.y - 3f), ground) && jumpResetCoolDown > 0.2)
         {
             jumpCount = maxJumpCount;
             dashCount = maxDashCount;
@@ -257,6 +263,7 @@ public class PlayerMovement : MonoBehaviour
             if (jumpCount > 0 || ((isTouchingLeftWall || isTouchingRightWall) && canWallJump)) 
             {
                 rb.linearVelocityY = jumpforce;
+                flow += 0.5f;
                 if (canWallJump == false || (isTouchingLeftWall == false && isTouchingRightWall == false))
                 {
                     jumpCount -= 1;
@@ -267,7 +274,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     if(horizontal < 0)
                     {
-                        rb.linearVelocityX = 10f;
+                        rb.linearVelocityX = 10f+flow*0.5f;
                     }
                     else
                     {
@@ -281,7 +288,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     if(horizontal > 0)
                     {
-                        rb.linearVelocityX = -10f;
+                        rb.linearVelocityX = -10f-flow*0.5f;
                     }
                     else
                     {
@@ -302,7 +309,7 @@ public class PlayerMovement : MonoBehaviour
         {
             isDashing = dashDuration;
             dashCount -= 1;
-
+            flow += 10f;
             rb.gravityScale = 0f; // Disable gravity during dash
             rb.linearVelocityY = 0f; // Optional: Reset vertical velocity to prevent upward
             if (vertical == 0)
@@ -324,15 +331,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void SetAnimation(float horizontal)
     {
-        if(Mathf.Abs(horizontal) > 0)
-            {
-                animator.Play("Run");
-            }
-            else
-            {
-                animator.Play("Idle");
-            }
-        /*
+        
         if (isGrounded)
         {
             if(Mathf.Abs(horizontal) > 0)
@@ -355,6 +354,6 @@ public class PlayerMovement : MonoBehaviour
                 animator.Play("Fall");
             }
         }
-        */
+        
     }
 }
