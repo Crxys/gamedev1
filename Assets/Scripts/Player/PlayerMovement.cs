@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
 
 
     // Variables for jump mechanics
+    public float maxflow = 30f;
     public float jumpforce = 10f;
     private int jumpCount = 1;
     private int maxJumpCount = 3;
@@ -25,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
     // Variables for dashing
     private bool canDash = true;
     private float dashForce = 50f;
-    private float dashCooldownTime = 5f;
+    //private float dashCooldownTime = 5f;
      private float dashDuration = 0.3f;
     private int maxDashCount = 1;
     private int dashCount = 1;
@@ -51,8 +52,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Animator animator;
 
-    Vector2 pointA;
-    Vector2 pointB;
+    float timeSinceInput = 0f;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -102,12 +102,25 @@ public class PlayerMovement : MonoBehaviour
     {
         if(horizontal == 0)
         {
-            flow = flow/2f;
-            Debug.Log("no flow");
+            timeSinceInput += Time.fixedDeltaTime;
+            if(timeSinceInput > 0.5f)
+            {
+                flow = flow/2f;
+                
+            }
+            
         }
         else
         {
-            flow += Time.fixedDeltaTime;
+            timeSinceInput = 0f;
+            if(flow > maxflow)
+            {
+                flow = flow * 0.8f + maxflow * 0.2f;
+            }
+            else
+            {
+                flow += 3f * Time.fixedDeltaTime;
+            }
         }
         if (isDashing <= 0)
         {
@@ -250,6 +263,7 @@ public class PlayerMovement : MonoBehaviour
         jumpResetCoolDown += Time.deltaTime;
         dashCooldown += Time.deltaTime;
         isDashing -= Time.deltaTime;
+        Debug.Log($"Flow: {flow}");
         // end of FixedUpdate, after all velocity-setting code
         //Debug.Log($"[FixedUpdate] vX={rb.linearVelocityX}, pos={transform.position}");
         //Debug.Log($"L={isTouchingLeftWall} R={isTouchingRightWall} grounded={isGrounded} velX={rb.linearVelocityX}");
@@ -299,6 +313,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 rb.linearVelocityY = jumpforce;
                 flow += 0.5f;
+                timeSinceInput = 0f;
                 if (canWallJump == false || (isTouchingLeftWall == false && isTouchingRightWall == false))
                 {
                     jumpCount -= 1;
@@ -344,7 +359,7 @@ public class PlayerMovement : MonoBehaviour
         {
             isDashing = dashDuration;
             dashCount -= 1;
-            flow += 10f;
+            flow += 3f;
             rb.gravityScale = 0f; // Disable gravity during dash
             rb.linearVelocityY = 0f; // Optional: Reset vertical velocity to prevent upward
             if (vertical == 0)

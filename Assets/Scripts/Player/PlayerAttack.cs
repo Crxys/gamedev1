@@ -20,6 +20,8 @@ public class PlayerAttack : MonoBehaviour
     private bool isSwinging = false;
     private Quaternion originalRotation;
 
+    [SerializeField] private float swingCooldown = 0.2f;
+    private float swingCooldownTimer = 0f;
     void Start()
     {
         automaticAttackPoint = transform.Find("AttackPoint");
@@ -39,9 +41,9 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-    void Update()
+    public void Attack()
     {
-        if (Input.GetMouseButtonDown(0) && !isSwinging)
+        if (!isSwinging)
         {
             StartCoroutine(ProceduralSwingRoutine());
         }
@@ -85,6 +87,12 @@ public class PlayerAttack : MonoBehaviour
         }
 
         weaponPivot.localRotation = originalRotation;
+        swingCooldownTimer = swingCooldown;
+        while(swingCooldownTimer > 0f)
+        {
+            swingCooldownTimer -= Time.deltaTime;
+            yield return null;
+        }
         isSwinging = false;
     }
 

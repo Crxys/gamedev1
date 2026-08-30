@@ -3,7 +3,7 @@ using UnityEngine.Events;
 public class playerHealth : MonoBehaviour
 {
     public delegate void playerDeath();
-    public static event playerDeath OnDeath;
+    //public static event playerDeath OnDeath;
     [SerializeField] private float maxHealth = 3f;
     private float currentHealth;
     private bool alive = true;
