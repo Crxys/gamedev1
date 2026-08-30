@@ -13,19 +13,19 @@ public class PlayerAttack : MonoBehaviour
     public float baseKnockbackForce = 18f;
     public float baseKnockbackDuration = 0.25f;
 
-    [Header("Scripted Animation Properties")]
-    public float swingAngle = 110f;
+    //[Header("Scripted Animation Properties")]
+    //public float swingAngle = 110f;
     public float swingDuration = 0.1f; 
     private Transform automaticAttackPoint; 
     private bool isSwinging = false;
-    private Quaternion originalRotation;
+    //private Quaternion originalRotation;
 
     [SerializeField] private float swingCooldown = 0.2f;
     private float swingCooldownTimer = 0f;
     void Start()
     {
         automaticAttackPoint = transform.Find("AttackPoint");
-
+        /*
         if (weaponPivot != null)
         {
             originalRotation = weaponPivot.localRotation;
@@ -39,6 +39,7 @@ public class PlayerAttack : MonoBehaviour
         {
             Debug.LogError("ATTACK ERROR: Could not find a child GameObject named exactly 'AttackPoint'!");
         }
+        */
     }
 
     public void Attack()
@@ -57,19 +58,19 @@ public class PlayerAttack : MonoBehaviour
 
         float elapsedTime = 0f;
         
-        Quaternion startRot = originalRotation * Quaternion.Euler(0, 0, swingAngle / 2f);
-        Quaternion endRot = originalRotation * Quaternion.Euler(0, 0, -swingAngle / 2f);
+        //Quaternion startRot = originalRotation * Quaternion.Euler(0, 0, swingAngle / 2f);
+        //Quaternion endRot = originalRotation * Quaternion.Euler(0, 0, -swingAngle / 2f);
 
         while (elapsedTime < swingDuration)
         {
             elapsedTime += Time.deltaTime;
-            float percentage = elapsedTime / swingDuration;
+            //float percentage = elapsedTime / swingDuration;
 
-            float smoothPercentage = Mathf.SmoothStep(0f, 1f, percentage);
+            //float smoothPercentage = Mathf.SmoothStep(0f, 1f, percentage);
 
             if (weaponPivot != null)
             {
-                weaponPivot.localRotation = Quaternion.Slerp(startRot, endRot, smoothPercentage);
+                //weaponPivot.localRotation = Quaternion.Slerp(startRot, endRot, smoothPercentage);
             }
 
             yield return null;
@@ -77,16 +78,16 @@ public class PlayerAttack : MonoBehaviour
 
         elapsedTime = 0f;
         float returnDuration = 0.1f;
-        Quaternion currentRot = weaponPivot.localRotation;
+        //Quaternion currentRot = weaponPivot.localRotation;
 
         while (elapsedTime < returnDuration)
         {
             elapsedTime += Time.deltaTime;
-            weaponPivot.localRotation = Quaternion.Slerp(currentRot, originalRotation, elapsedTime / returnDuration);
+            //weaponPivot.localRotation = Quaternion.Slerp(currentRot, originalRotation, elapsedTime / returnDuration);
             yield return null;
         }
 
-        weaponPivot.localRotation = originalRotation;
+        //weaponPivot.localRotation = originalRotation;
         swingCooldownTimer = swingCooldown;
         while(swingCooldownTimer > 0f)
         {
@@ -126,7 +127,7 @@ public class PlayerAttack : MonoBehaviour
             }
         }
     }
-
+    
     private void OnDrawGizmosSelected()
     {
         if (automaticAttackPoint != null)
@@ -135,4 +136,5 @@ public class PlayerAttack : MonoBehaviour
             Gizmos.DrawWireSphere(automaticAttackPoint.position, attackRange);
         }
     }
+    
 }
