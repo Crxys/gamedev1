@@ -50,6 +50,9 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 knockbackVelocity = Vector2.zero;
 
     private Animator animator;
+
+    Vector2 pointA;
+    Vector2 pointB;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -156,7 +159,7 @@ public class PlayerMovement : MonoBehaviour
         
 
 
-        if (Physics2D.OverlapArea(new Vector2(rb.transform.position.x - 0.3f, rb.transform.position.y - 2.7675f), new Vector2(rb.transform.position.x + 0.3f, rb.transform.position.y - 3f), ground) && jumpResetCoolDown > 0.2)
+        if (Physics2D.OverlapArea(new Vector2(rb.transform.position.x - 0.3f, rb.transform.position.y - 1.05f), new Vector2(rb.transform.position.x + 0.3f, rb.transform.position.y - 0.9f), ground) && jumpResetCoolDown > 0.2)
         {
             jumpCount = maxJumpCount;
             dashCount = maxDashCount;
@@ -172,6 +175,8 @@ public class PlayerMovement : MonoBehaviour
                 isGrounded = false;
             }
         }
+
+        
         //Debug.Log("horizontal: " + horizontal);
         if (Physics2D.OverlapArea(new Vector2(rb.transform.position.x-0.5f,rb.transform.position.y+0.35f),new Vector2(rb.transform.position.x-0.4f,rb.transform.position.y-0.35f), ground))
         {
@@ -249,7 +254,37 @@ public class PlayerMovement : MonoBehaviour
         //Debug.Log($"[FixedUpdate] vX={rb.linearVelocityX}, pos={transform.position}");
         //Debug.Log($"L={isTouchingLeftWall} R={isTouchingRightWall} grounded={isGrounded} velX={rb.linearVelocityX}");
     }
-    
+    void OnDrawGizmos()
+    {
+        // 1. Ground Check (Green)
+        Gizmos.color = Color.green;
+        Vector2 groundA = new Vector2(transform.position.x - 0.3f, transform.position.y - 1.05f);
+        Vector2 groundB = new Vector2(transform.position.x + 0.3f, transform.position.y - 0.9f);
+        DrawOverlapBox(groundA, groundB);
+
+        // 2. Left Wall Check (Blue)
+        Gizmos.color = Color.blue;
+        Vector2 leftWallA = new Vector2(transform.position.x - 0.5f, transform.position.y + 0.35f);
+        Vector2 leftWallB = new Vector2(transform.position.x - 0.4f, transform.position.y - 0.35f);
+        DrawOverlapBox(leftWallA, leftWallB);
+
+        // 3. Right Wall Check (Red)
+        Gizmos.color = Color.red;
+        Vector2 rightWallA = new Vector2(transform.position.x + 0.4f, transform.position.y + 0.35f);
+        Vector2 rightWallB = new Vector2(transform.position.x + 0.5f, transform.position.y - 0.35f);
+        DrawOverlapBox(rightWallA, rightWallB);
+    }
+
+    // Helper method to keep the code clean
+    void DrawOverlapBox(Vector2 pointA, Vector2 pointB)
+    {
+        Vector2 center = (pointA + pointB) / 2f;
+        Vector2 size = new Vector2(
+            Mathf.Abs(pointA.x - pointB.x),
+            Mathf.Abs(pointA.y - pointB.y)
+        );
+        Gizmos.DrawWireCube(center, size);
+    }
     public void Move(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
