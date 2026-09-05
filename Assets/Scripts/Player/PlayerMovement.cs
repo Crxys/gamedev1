@@ -324,7 +324,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     if(horizontal < 0)
                     {
-                        rb.linearVelocityX = 10f+flow*0.5f;
+                        rb.linearVelocityX = 10f; //flow*0.5f
                     }
                     else
                     {
@@ -338,7 +338,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     if(horizontal > 0)
                     {
-                        rb.linearVelocityX = -10f-flow*0.5f;
+                        rb.linearVelocityX = -10f; //-flow*0.5f
                     }
                     else
                     {
