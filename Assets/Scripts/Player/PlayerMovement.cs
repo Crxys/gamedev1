@@ -138,9 +138,9 @@ public class PlayerMovement : MonoBehaviour
                 return;
             }
         }
-            if (horizontal != 0 && Mathf.Abs(rb.linearVelocityX) <= maxMoveSpeed+flow*0.5f)
+            if (horizontal != 0 && Mathf.Abs(rb.linearVelocityX) <= maxMoveSpeed) //flow*0.5f
             {
-                rb.linearVelocityX = horizontal * (moveSpeed+ flow*0.5f); // Add a small acceleration factor based on how long the player has been moving
+                rb.linearVelocityX = horizontal * (moveSpeed); //flow*0.5f Add a small acceleration factor based on how long the player has been moving
             }
             else if (horizontal != 0)
             {
@@ -157,7 +157,7 @@ public class PlayerMovement : MonoBehaviour
             else
             {
                 // If you were just dashing (velocity is higher than max speed), gradually slow down
-                if (Mathf.Abs(rb.linearVelocityX) > maxMoveSpeed+flow*0.5f)
+                if (Mathf.Abs(rb.linearVelocityX) > maxMoveSpeed) //flow*0.5f
                 {
                     rb.linearVelocityX -= 10f * Mathf.Sign(rb.linearVelocityX) * Time.fixedDeltaTime;
                 }
@@ -263,7 +263,7 @@ public class PlayerMovement : MonoBehaviour
         jumpResetCoolDown += Time.deltaTime;
         dashCooldown += Time.deltaTime;
         isDashing -= Time.deltaTime;
-        Debug.Log($"Flow: {flow}");
+        //Debug.Log($"Flow: {flow}");
         // end of FixedUpdate, after all velocity-setting code
         //Debug.Log($"[FixedUpdate] vX={rb.linearVelocityX}, pos={transform.position}");
         //Debug.Log($"L={isTouchingLeftWall} R={isTouchingRightWall} grounded={isGrounded} velX={rb.linearVelocityX}");
