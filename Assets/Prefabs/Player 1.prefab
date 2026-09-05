@@ -369,15 +369,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
   weaponPivot: {fileID: 2086063484822409716}
-  attackRange: 1.5
   enemyLayers:
     serializedVersion: 2
     m_Bits: 128
-  attackDamage: 1
-  baseKnockbackForce: 10.13
-  baseKnockbackDuration: 1
-  swingAngle: 110
-  swingDuration: 0.15
+  Default: {fileID: 11400000, guid: 73745e9a2522f4dd7ad9802a09a2f4c6, type: 2}
 --- !u!95 &1718306996164872815
 Animator:
   serializedVersion: 7

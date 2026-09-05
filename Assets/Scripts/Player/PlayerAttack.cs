@@ -5,23 +5,24 @@ public class PlayerAttack : MonoBehaviour
 {
     [Header("Weapon Transform Hooks")]
     public Transform weaponPivot;
-    public float attackRange = 1.5f;    
+    //public float attackRange = 1.5f;    
     public LayerMask enemyLayers;       
-    public float attackDamage = 1.0f;   
+    //public float attackDamage = 1.0f;   
     
-    [Header("Knockback Settings")]
-    public float baseKnockbackForce = 18f;
-    public float baseKnockbackDuration = 0.25f;
+    //[Header("Knockback Settings")]
+    //public float baseKnockbackForce = 18f;
+    //public float baseKnockbackDuration = 0.25f;
 
     //[Header("Scripted Animation Properties")]
     //public float swingAngle = 110f;
-    public float swingDuration = 0.1f; 
+    //public float swingDuration = 0.1f; 
     private Transform automaticAttackPoint; 
     private bool isSwinging = false;
     //private Quaternion originalRotation;
 
-    [SerializeField] private float swingCooldown = 0.2f;
+    //[SerializeField] private float swingCooldown = 0.2f;
     private float swingCooldownTimer = 0f;
+    public AttackData Default; // Reference to the AttackData ScriptableObject
     void Start()
     {
         automaticAttackPoint = transform.Find("AttackPoint");
@@ -50,11 +51,28 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-    private IEnumerator ProceduralSwingRoutine()
+    private IEnumerator ProceduralSwingRoutine(AttackData attackData = null)
     {
+        if (attackData == null)
+        {
+            attackData = Default; // Use the default AttackData if none is provided
+        }
+
+        float attackDamage = attackData.damage;
+        float attackRange = attackData.attackRange;
+        float swingDuration = attackData.swingDuration;
+        float swingCooldown = attackData.swingCooldown;
+        float baseKnockbackForce = attackData.baseKnockbackForce;
+        float baseKnockbackDuration = attackData.baseKnockbackDuration;
+
+        if (swingCooldownTimer > 0f)
+        {
+            yield break; // Exit if still in cooldown
+        }
+    
         isSwinging = true;
 
-        PerformMeleeAttack();
+        PerformMeleeAttack(attackData);
 
         float elapsedTime = 0f;
         
@@ -72,10 +90,10 @@ public class PlayerAttack : MonoBehaviour
             {
                 //weaponPivot.localRotation = Quaternion.Slerp(startRot, endRot, smoothPercentage);
             }
-
+            PerformMeleeAttack(attackData);
             yield return null;
         }
-
+        
         elapsedTime = 0f;
         float returnDuration = 0.1f;
         //Quaternion currentRot = weaponPivot.localRotation;
@@ -86,7 +104,7 @@ public class PlayerAttack : MonoBehaviour
             //weaponPivot.localRotation = Quaternion.Slerp(currentRot, originalRotation, elapsedTime / returnDuration);
             yield return null;
         }
-
+        
         //weaponPivot.localRotation = originalRotation;
         swingCooldownTimer = swingCooldown;
         while(swingCooldownTimer > 0f)
@@ -97,12 +115,17 @@ public class PlayerAttack : MonoBehaviour
         isSwinging = false;
     }
 
-    public void PerformMeleeAttack()
+    public void PerformMeleeAttack(AttackData attack = null)
     {
+        if (attack == null)
+        {
+            attack = Default;
+        }
+
         if (automaticAttackPoint == null) return;
 
         Vector3 searchPosition = automaticAttackPoint.position;
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(searchPosition, attackRange, enemyLayers);
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(searchPosition, attack.attackRange, enemyLayers);
 
         foreach (Collider2D enemyCollider in hitEnemies)
         {
@@ -116,14 +139,14 @@ public class PlayerAttack : MonoBehaviour
 
                 Vector2 direction = (enemyPos - playerPos).normalized;
                 direction.x = Mathf.Abs(direction.x) * Mathf.Sign(transform.localScale.x);
-                kb.Knockback(direction, baseKnockbackForce, baseKnockbackDuration);
+                kb.Knockback(direction, attack.baseKnockbackForce, attack.baseKnockbackDuration);
             }
 
             EnemyHP enemyHealth = enemyCollider.GetComponent<EnemyHP>();
             if (enemyHealth != null)
             {
-                enemyHealth.Damage(attackDamage);
-                Debug.Log($"{enemyCollider.name} took {attackDamage} damage procedurally!");
+                enemyHealth.Damage(attack.damage);
+                Debug.Log($"{enemyCollider.name} took {attack.damage} damage procedurally!");
             }
         }
     }
@@ -133,7 +156,7 @@ public class PlayerAttack : MonoBehaviour
         if (automaticAttackPoint != null)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(automaticAttackPoint.position, attackRange);
+            //Gizmos.DrawWireSphere(automaticAttackPoint.position, attackRange);
         }
     }
     

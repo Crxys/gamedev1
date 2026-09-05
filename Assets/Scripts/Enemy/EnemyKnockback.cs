@@ -9,14 +9,18 @@ public class EnemyKnockback : MonoBehaviour
 
     // You can still keep this property if other scripts need to check it!
     public bool isKnockbackActive => currentKnockbackCoroutine != null;
-
+    EnemyHP enemyHP;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        enemyHP = GetComponent<EnemyHP>();
     }
 
     public void Knockback(Vector2 direction, float force, float duration)
     {
+        
+        
+
         // If already flying back, stop that timer/velocity control immediately
         if (currentKnockbackCoroutine != null)
         {
@@ -36,5 +40,6 @@ public class EnemyKnockback : MonoBehaviour
 
         rb.linearVelocity = Vector2.zero; 
         currentKnockbackCoroutine = null; // Clear the reference when finished
+        
     }
 }

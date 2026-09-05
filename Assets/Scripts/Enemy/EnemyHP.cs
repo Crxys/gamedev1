@@ -11,8 +11,8 @@ public class EnemyHP : MonoBehaviour, IDamageable
     private float currentHealth;
     [SerializeField] private Collider2D enemyCollider;
     private float paintLevel = 0f;
-    public bool hasBeenHit { get; set; }
-    
+    public float hasBeenHit = 0f;
+    public float buffer = 0.1f; // Time in seconds during which the enemy is invulnerable after being hit
     void Start()
     {
         characterRenderer = GetComponent<SpriteRenderer>();
@@ -41,11 +41,14 @@ public class EnemyHP : MonoBehaviour, IDamageable
             //Debug.Log($"Enemy hit by player dash! Paint level: {paintLevel}");
             Damage(paintLevel*paintLevel/2f); // Damage is proportional to the square of the paint level
             paintLevel = 0f;
+            hasBeenHit = buffer;
         }
+        hasBeenHit -= Time.fixedDeltaTime;
     }
     public void Damage(float damageAmount)
     {
-        hasBeenHit = true;
+        if(hasBeenHit > 0f) return; // Prevents multiple hits in a single frame
+        hasBeenHit = buffer;
         currentHealth -= damageAmount;
         paintLevel += damageAmount;
         if(currentHealth <= 0f)
