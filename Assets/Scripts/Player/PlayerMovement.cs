@@ -33,7 +33,7 @@ public class PlayerMovement : MonoBehaviour
     private float dashCooldown = 5f;
     public float isDashing = 0f;
     public bool wasDashing = false;
-    private float extraInv = 1f; // Extra invincibility time after dash, can be modified by power-ups
+    private float extraInv = 0.4f; // Extra invincibility time after dash, can be modified by power-ups
     float originalGravity = 1f;
     public delegate void playerDash(float invincibilityDuration);
     public static event playerDash playerDashed;
@@ -66,7 +66,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if(isDashing > 0) //maybe remove
         {
-            //return; // Skip movement logic while dashing
+            return; // Skip movement logic while dashing
         }
         else
         {
