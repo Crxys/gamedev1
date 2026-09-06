@@ -3,12 +3,12 @@ using UnityEngine;
 public class EnemyHP : MonoBehaviour, IDamageable
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    [SerializeField] private float maxHealth = 3f;
+    public float maxHealth { get; set; } = 3f;
     [SerializeField] private SpriteRenderer characterRenderer;
     private PlayerMovement player;
     [SerializeField] private LayerMask playerLayer;
     private ContactFilter2D contactFilter;
-    private float currentHealth;
+    public float currentHealth { get; set; }
     [SerializeField] private Collider2D enemyCollider;
     private float paintLevel = 0f;
     public float hasBeenHit = 0f;
@@ -56,7 +56,7 @@ public class EnemyHP : MonoBehaviour, IDamageable
             Die();
         }
     }
-    private void Die()
+    public void Die()
     {
         Destroy(gameObject);
     }
