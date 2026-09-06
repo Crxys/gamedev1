@@ -25,13 +25,14 @@ public class PlayerMovement : MonoBehaviour
 
     // Variables for dashing
     private bool canDash = true;
-    private float dashForce = 50f;
+    private float dashForce = 80f;
     //private float dashCooldownTime = 5f;
      private float dashDuration = 0.3f;
     private int maxDashCount = 1;
     private int dashCount = 1;
     private float dashCooldown = 5f;
     public float isDashing = 0f;
+    public bool wasDashing = false;
     private float extraInv = 1f; // Extra invincibility time after dash, can be modified by power-ups
     float originalGravity = 1f;
     public delegate void playerDash(float invincibilityDuration);
@@ -124,20 +125,37 @@ public class PlayerMovement : MonoBehaviour
         }
         if (isDashing <= 0)
         {
+            if(wasDashing)
+            {
+                rb.gravityScale = originalGravity; // Restore gravity after dash
+                if(Mathf.Abs(rb.linearVelocityX) > maxMoveSpeed)
+                {
+                    rb.linearVelocityX = maxMoveSpeed * Mathf.Sign(rb.linearVelocityX); // Optional: Cap horizontal speed after dash
+                    Debug.Log($"Capping horizontal speed after dash: {rb.linearVelocityX}");
+                }
+                if(Mathf.Abs(rb.linearVelocityY) > maxMoveSpeed)
+                {
+                    rb.linearVelocityY = maxMoveSpeed * Mathf.Sign(rb.linearVelocityY); // Optional: Cap vertical speed after dash
+                    Debug.Log($"Capping vertical speed after dash: {rb.linearVelocityY}");
+                }
+                wasDashing = false;
+            }
+            
+            
             if (isKnockedBack)
-        {
-            knockbackTimeRemaining -= Time.fixedDeltaTime;
-            if (knockbackTimeRemaining <= 0f)
             {
-                isKnockedBack = false;
-                knockbackVelocity = Vector2.zero;
+                knockbackTimeRemaining -= Time.fixedDeltaTime;
+                if (knockbackTimeRemaining <= 0f)
+                {
+                    isKnockedBack = false;
+                    knockbackVelocity = Vector2.zero;
+                }
+                else
+                {
+                    rb.linearVelocity = new Vector2(knockbackVelocity.x, rb.linearVelocity.y);
+                    return;
+                }
             }
-            else
-            {
-                rb.linearVelocity = new Vector2(knockbackVelocity.x, rb.linearVelocity.y);
-                return;
-            }
-        }
             if (horizontal != 0 && Mathf.Abs(rb.linearVelocityX) <= maxMoveSpeed) //flow*0.5f
             {
                 rb.linearVelocityX = horizontal * (moveSpeed); //flow*0.5f Add a small acceleration factor based on how long the player has been moving
@@ -167,6 +185,10 @@ public class PlayerMovement : MonoBehaviour
                     rb.linearVelocityX = 0f;
                 }
             }
+        }
+        else
+        {
+            wasDashing = true;
         }
 
         
@@ -362,6 +384,7 @@ public class PlayerMovement : MonoBehaviour
             flow += 3f;
             rb.gravityScale = 0f; // Disable gravity during dash
             rb.linearVelocityY = 0f; // Optional: Reset vertical velocity to prevent upward
+            wasDashing = true;
             if (vertical == 0)
             {
                 rb.linearVelocityX = transform.localScale.x*dashForce;
@@ -374,6 +397,8 @@ public class PlayerMovement : MonoBehaviour
 
             //dashCooldown = 0f;
             playerDashed.Invoke(dashDuration + extraInv);
+            
+            
         }
         
     }

@@ -17,8 +17,8 @@ MonoBehaviour:
   impactVFX: {fileID: 0}
   impactSFX: {fileID: 0}
   damage: 1
-  baseKnockbackForce: 9
-  baseKnockbackDuration: 1
+  baseKnockbackForce: 10.5
+  baseKnockbackDuration: 0.8
   attackRange: 1.5
   swingDuration: 0.1
   swingCooldown: 0.2
