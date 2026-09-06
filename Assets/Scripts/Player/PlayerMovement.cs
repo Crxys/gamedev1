@@ -66,18 +66,18 @@ public class PlayerMovement : MonoBehaviour
     {
         if(isDashing > 0) //maybe remove
         {
-            return; // Skip movement logic while dashing
+            //return; // Skip movement logic while dashing
         }
         else
         {
             rb.gravityScale = originalGravity; // Restore gravity when not dashing
         }
         // Sprite flipping — purely visual, not physics
-        if (horizontal == 1)
+        if (horizontal > 0)
         {
             transform.localScale = new Vector3(0.25f, 0.25f, 1f);
         }
-        else if (horizontal == -1)
+        else if (horizontal < 0)
         {
             transform.localScale = new Vector3(-0.25f, 0.25f, 1f);
         }
