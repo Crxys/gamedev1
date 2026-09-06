@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
 
     // Variables for jump mechanics
     public float maxflow = 30f;
-    public float jumpforce = 10f;
+    public float jumpforce = 12f;
     private int jumpCount = 1;
     private int maxJumpCount = 3;
     private float jumpResetCoolDown = 5f;
@@ -276,6 +276,7 @@ public class PlayerMovement : MonoBehaviour
             }
 
         }
+        
         if (isGrounded || isTouchingRightWall || isTouchingLeftWall) {
             jumpTime = 0f; }
         else
@@ -374,10 +375,14 @@ public class PlayerMovement : MonoBehaviour
             }
             
         }
+        if (context.canceled && rb.linearVelocity.y > 0)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * 0.5f);
+        }
     }
     public void Dash(InputAction.CallbackContext context)
     {
-        if (canDash && dashCount > 0) //dashCooldown >= dashCooldownTime && 
+        if (canDash && dashCount > 0 && !isGrounded) //dashCooldown >= dashCooldownTime && 
         {
             isDashing = dashDuration;
             dashCount -= 1;
