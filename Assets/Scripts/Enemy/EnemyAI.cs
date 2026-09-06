@@ -39,7 +39,7 @@ public class EnemyAI : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (Physics2D.OverlapArea(new Vector2(me.transform.position.x - 0.45f, me.transform.position.y - 0.35f), new Vector2(me.transform.position.x + 0.45f, me.transform.position.y - 0.55f), ground))
+        if (Physics2D.OverlapArea(new Vector2(me.transform.position.x - 0.4f, me.transform.position.y - 0.5f), new Vector2(me.transform.position.x + 0.4f, me.transform.position.y - 0.7f), ground))
         {
             isGrounded = true;
             
@@ -76,7 +76,26 @@ public class EnemyAI : MonoBehaviour
         
         
     }
+    void OnDrawGizmos()
+    {
+        // 1. Ground Check (Green)
+        Gizmos.color = Color.green;
+        Vector2 groundA = new Vector2(transform.position.x - 0.4f, transform.position.y - 0.5f);
+        Vector2 groundB = new Vector2(transform.position.x + 0.4f, transform.position.y - 0.7f);
+        DrawOverlapBox(groundA, groundB);
 
+    }
+
+    // Helper method to keep the code clean
+    void DrawOverlapBox(Vector2 pointA, Vector2 pointB)
+    {
+        Vector2 center = (pointA + pointB) / 2f;
+        Vector2 size = new Vector2(
+            Mathf.Abs(pointA.x - pointB.x),
+            Mathf.Abs(pointA.y - pointB.y)
+        );
+        Gizmos.DrawWireCube(center, size);
+    }
     public void Jump()
     {
         me.linearVelocityY = jumpforce;

@@ -181,7 +181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7594616c4a90f4ffdb306f8ec6236a1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  player: {fileID: 0}
+  player: {fileID: 7572890983322599961, guid: 1146f4285d34a46beb1415c62f78ce7e, type: 3}
   jumpforce: 10
   maxMoveSpeed: 5
   size: 0.25
@@ -205,6 +205,9 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 256
+  enemyCollider: {fileID: 0}
+  hasBeenHit: 0
+  buffer: 0.1
 --- !u!114 &-7144374592937890340
 MonoBehaviour:
   m_ObjectHideFlags: 0
