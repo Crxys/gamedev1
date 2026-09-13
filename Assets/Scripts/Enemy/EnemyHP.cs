@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using System;
 public class EnemyHP : MonoBehaviour, IDamageable
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -39,7 +39,7 @@ public class EnemyHP : MonoBehaviour, IDamageable
         if(playerCount > 0 && player.isDashing > 0f)
         {
             //Debug.Log($"Enemy hit by player dash! Paint level: {paintLevel}");
-            Damage(paintLevel*paintLevel/2f); // Damage is proportional to the square of the paint level
+            Damage((int)Math.Pow(1.2, paintLevel));
             paintLevel = 0f;
             hasBeenHit = buffer;
         }
