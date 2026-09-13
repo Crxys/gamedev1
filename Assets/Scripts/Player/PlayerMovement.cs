@@ -26,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
     // Variables for dashing
     private bool canDash = true;
     private float dashForce = 80f;
+    private float delayedDashForce = 20f;
     //private float dashCooldownTime = 5f;
      private float dashDuration = 0.3f;
     private int maxDashCount = 1;
@@ -36,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
     private float extraInv = 0.4f; // Extra invincibility time after dash, can be modified by power-ups
     float originalGravity = 1f;
     private float graceTimer = 0f; // Timer for grace period after dash
-    private float directionGraceWindow = 0.2f; // Time window to allow directional
+    private float directionGraceWindow = 0.1f; // Time window to allow directional
     public delegate void playerDash(float invincibilityDuration);
     public static event playerDash playerDashed;
     private bool dashUp = false;
@@ -142,17 +143,20 @@ public class PlayerMovement : MonoBehaviour
             */ 
             if (vertical > 0 && dashUp == false)
             {
-                rb.linearVelocityX = Mathf.Sign(horizontal) * dashForce /Mathf.Sqrt(2);
+                rb.linearVelocityX = Mathf.Sign(horizontal) * delayedDashForce /Mathf.Sqrt(2);
                 rb.linearVelocityY = Mathf.Sign(vertical) * transform.localScale.y * dashForce / Mathf.Sqrt(2);
                 graceTimer = 0f; // End grace period after applying dash
             }
             else if (vertical < 0 && dashDown == false)
             {
-                rb.linearVelocityX = Mathf.Sign(horizontal) * dashForce /Mathf.Sqrt(2);
+                rb.linearVelocityX = Mathf.Sign(horizontal) * delayedDashForce /Mathf.Sqrt(2);
                 rb.linearVelocityY = Mathf.Sign(vertical) * transform.localScale.y * dashForce / Mathf.Sqrt(2);
                 graceTimer = 0f; // End grace period after applying dash
             }
-            
+            if(graceTimer <= 0f)
+            {
+                Debug.Log($"horizontal velocity: {rb.linearVelocityX}");
+            }
         }
         if (isDashing <= 0)
         {
