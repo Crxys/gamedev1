@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 3428586653098079969}
   - component: {fileID: 3565034341817870852}
   - component: {fileID: 9088286004185368406}
-  m_Layer: 0
+  - component: {fileID: 998547801651938338}
+  m_Layer: 7
   m_Name: Square
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -120,7 +121,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &3565034341817870852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,6 +137,9 @@ MonoBehaviour:
   ground:
     serializedVersion: 2
     m_Bits: 64
+  player:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!61 &9088286004185368406
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -182,3 +186,21 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &998547801651938338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 145441775812112750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c03f38b7a5adc64da83a8611aaaa3c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Mouse
+  ground:
+    serializedVersion: 2
+    m_Bits: 64
+  player:
+    serializedVersion: 2
+    m_Bits: 256

@@ -3,18 +3,26 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour, IDamageable, IEnemyMovable
 {
+    protected Enemy enemy;
+    public Enemy(Enemy enemy)
+    {
+        this.enemy = enemy;
+    }
     public float currentHealth { get; set; } = 10f;
     public float maxHealth { get; set; }
     public Rigidbody2D RB { get; set; }
     public LayerMask ground;
+    public LayerMask player;
 
     public EnemyStateMachine enemyStateMachine { get; set; }
     public EnemyPacingIdle enemyPacingIdle { get; set; }
+    public EnemyDirectChase enemyDirectChase { get; set; }
 
     public void Awake()
     {
         enemyStateMachine = new EnemyStateMachine();
         enemyPacingIdle = new EnemyPacingIdle(this,enemyStateMachine);
+        enemyDirectChase = new EnemyDirectChase(this,enemyStateMachine);
     }
 
     public void Start()
