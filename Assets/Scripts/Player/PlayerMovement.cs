@@ -35,9 +35,13 @@ public class PlayerMovement : MonoBehaviour
     public bool wasDashing = false;
     private float extraInv = 0.4f; // Extra invincibility time after dash, can be modified by power-ups
     float originalGravity = 1f;
+    private float graceTimer = 0f; // Timer for grace period after dash
+    private float directionGraceWindow = 0.2f; // Time window to allow directional
     public delegate void playerDash(float invincibilityDuration);
     public static event playerDash playerDashed;
-
+    private bool dashUp = false;
+    private bool dashDown = false;
+    private bool dashH = false;
     public float moveSpeed = 5f;
     public float maxMoveSpeed = 5f;
     float horizontal;
@@ -122,6 +126,33 @@ public class PlayerMovement : MonoBehaviour
             {
                 flow += 3f * Time.fixedDeltaTime;
             }
+        }
+        if (graceTimer > 0f)
+        {
+            graceTimer -= Time.fixedDeltaTime;
+            /*
+            
+            if (vertical == 0 && horizontal != 0 && dashH == false)
+            {
+                rb.linearVelocityX = Mathf.Sign(horizontal) * dashForce;
+                rb.linearVelocityY = 0f;
+                graceTimer = 0f; // End grace period after applying dash
+            }
+            else
+            */ 
+            if (vertical > 0 && dashUp == false)
+            {
+                rb.linearVelocityX = Mathf.Sign(horizontal) * dashForce /Mathf.Sqrt(2);
+                rb.linearVelocityY = Mathf.Sign(vertical) * transform.localScale.y * dashForce / Mathf.Sqrt(2);
+                graceTimer = 0f; // End grace period after applying dash
+            }
+            else if (vertical < 0 && dashDown == false)
+            {
+                rb.linearVelocityX = Mathf.Sign(horizontal) * dashForce /Mathf.Sqrt(2);
+                rb.linearVelocityY = Mathf.Sign(vertical) * transform.localScale.y * dashForce / Mathf.Sqrt(2);
+                graceTimer = 0f; // End grace period after applying dash
+            }
+            
         }
         if (isDashing <= 0)
         {
@@ -385,6 +416,7 @@ public class PlayerMovement : MonoBehaviour
         if (canDash && dashCount > 0 && !isGrounded) //dashCooldown >= dashCooldownTime && 
         {
             isDashing = dashDuration;
+            graceTimer = directionGraceWindow;
             dashCount -= 1;
             flow += 3f;
             rb.gravityScale = 0f; // Disable gravity during dash
@@ -393,9 +425,15 @@ public class PlayerMovement : MonoBehaviour
             if (vertical == 0)
             {
                 rb.linearVelocityX = transform.localScale.x*dashForce;
+                dashH = true;
+                dashUp = false;
+                dashDown = false;
             }
             else
             {
+                dashH = false;
+                dashUp = vertical > 0;
+                dashDown = vertical < 0;
                 rb.linearVelocityX = transform.localScale.x * dashForce /Mathf.Sqrt(2);
                 rb.linearVelocityY = Mathf.Sign(vertical) * transform.localScale.y * dashForce / Mathf.Sqrt(2);
             }
