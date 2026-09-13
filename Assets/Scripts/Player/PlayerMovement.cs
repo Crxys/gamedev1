@@ -106,28 +106,8 @@ public class PlayerMovement : MonoBehaviour
     }
     void FixedUpdate()
     {
-        if(horizontal == 0)
-        {
-            timeSinceInput += Time.fixedDeltaTime;
-            if(timeSinceInput > 0.5f)
-            {
-                flow = flow/2f;
-                
-            }
-            
-        }
-        else
-        {
-            timeSinceInput = 0f;
-            if(flow > maxflow)
-            {
-                flow = flow * 0.8f + maxflow * 0.2f;
-            }
-            else
-            {
-                flow += 3f * Time.fixedDeltaTime;
-            }
-        }
+        
+        
         if (graceTimer > 0f)
         {
             graceTimer -= Time.fixedDeltaTime;
@@ -146,12 +126,28 @@ public class PlayerMovement : MonoBehaviour
                 rb.linearVelocityX = Mathf.Sign(horizontal) * delayedDashForce /Mathf.Sqrt(2);
                 rb.linearVelocityY = Mathf.Sign(vertical) * transform.localScale.y * dashForce / Mathf.Sqrt(2);
                 graceTimer = 0f; // End grace period after applying dash
+                if (horizontal > 0)
+                {
+                    transform.localScale = new Vector3(0.25f, 0.25f, 1f);
+                }
+                else if (horizontal < 0)
+                {
+                    transform.localScale = new Vector3(-0.25f, 0.25f, 1f);
+                }
             }
             else if (vertical < 0 && dashDown == false)
             {
                 rb.linearVelocityX = Mathf.Sign(horizontal) * delayedDashForce /Mathf.Sqrt(2);
                 rb.linearVelocityY = Mathf.Sign(vertical) * transform.localScale.y * dashForce / Mathf.Sqrt(2);
                 graceTimer = 0f; // End grace period after applying dash
+                if (horizontal > 0)
+                {
+                    transform.localScale = new Vector3(0.25f, 0.25f, 1f);
+                }
+                else if (horizontal < 0)
+                {
+                    transform.localScale = new Vector3(-0.25f, 0.25f, 1f);
+                }
             }
             if(graceTimer <= 0f)
             {
