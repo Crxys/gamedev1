@@ -88,7 +88,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Animation state — should update every rendered frame for smoothness
-        SetAnimation(horizontal);
+        
         // end of Update
         //Debug.Log($"[Update] vX={rb.linearVelocityX}, pos={transform.position}");
     }
@@ -307,7 +307,7 @@ public class PlayerMovement : MonoBehaviour
             }
 
         }
-        
+        SetAnimation(horizontal);
         if (isGrounded || isTouchingRightWall || isTouchingLeftWall) {
             jumpTime = 0f; }
         else
@@ -452,24 +452,27 @@ public class PlayerMovement : MonoBehaviour
         
         if (isGrounded)
         {
+            animator.SetBool("isJumping", false);
+            animator.SetBool("isFalling", false);
             if(Mathf.Abs(horizontal) > 0)
             {
-                animator.Play("Run");
+                animator.SetBool("isRunning", true);
             }
             else
             {
-                animator.Play("Idle");
+                animator.SetBool("isRunning", false);
             }
         }
         else
         {
+            animator.SetBool("isJumping", true);
             if (rb.linearVelocityY > 0)
             {
-                animator.Play("Jump");
+                animator.SetBool("isFalling", false);
             }
             else
             {
-                animator.Play("Fall");
+                animator.SetBool("isFalling", true);
             }
         }
         

@@ -19,6 +19,7 @@ public class PlayerAttack : MonoBehaviour
     private Transform automaticAttackPoint; 
     private bool isSwinging = false;
     //private Quaternion originalRotation;
+    private Animator animator;
 
     //[SerializeField] private float swingCooldown = 0.2f;
     private float swingCooldownTimer = 0f;
@@ -123,7 +124,7 @@ public class PlayerAttack : MonoBehaviour
         }
 
         if (automaticAttackPoint == null) return;
-
+        animator.SetTrigger("Attack");
         Vector3 searchPosition = automaticAttackPoint.position;
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(searchPosition, attack.attackRange, enemyLayers);
 
