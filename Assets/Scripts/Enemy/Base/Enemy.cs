@@ -12,7 +12,7 @@ public class Enemy : MonoBehaviour, IDamageable, IEnemyMovable
     public float maxHealth { get; set; }
     public Rigidbody2D RB { get; set; }
     public LayerMask ground;
-    public LayerMask player;
+    public LayerMask player=8;
 
     public EnemyStateMachine enemyStateMachine { get; set; }
     public EnemyPacingIdle enemyPacingIdle { get; set; }

@@ -4,14 +4,13 @@ public class Mouse : Enemy
 {
     public Mouse(Enemy enemy) : base(enemy)
     {
+        RB = GetComponent<Rigidbody2D>();
     }
 
     public new void FixedUpdate()
     {
-        Debug.Log(enemy.RB);
-        if (Physics2D.OverlapArea(new Vector2(enemy.RB.transform.position.x-3.5f,enemy.RB.transform.position.y+1.5f),new Vector2(enemy.RB.transform.position.x+10.5f,enemy.RB.transform.position.y-1.5f), enemy.player))
+        if ((RB!=null) && Physics2D.OverlapArea(new Vector2(RB.transform.position.x-3.5f,RB.transform.position.y+1.5f),new Vector2(RB.transform.position.x+10.5f,RB.transform.position.y-1.5f), 8))
         {
-            Debug.Log("change");
             enemy.enemyStateMachine.changeState(enemy.enemyDirectChase);
         }
     }

@@ -22,9 +22,12 @@ public class EnemyDirectChase : EnemyState
     public override void FrameUpdate()
     {
         base.FrameUpdate();
+        if (player == null)
+        {
+            player = Object.FindAnyObjectByType<PlayerMovement>();
+        }
         float horizontal = Mathf.Sign(player.transform.position.x - enemy.RB.transform.position.x);
         enemy.RB.linearVelocityX = horizontal * moveSpeed;
-        Debug.Log("hi");
     }
 
     public override void PhysicsUpdate()
