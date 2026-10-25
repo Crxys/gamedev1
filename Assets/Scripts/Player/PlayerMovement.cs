@@ -465,16 +465,19 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
+            Debug.Log($"rb.linearVelocityY: {rb.linearVelocityY}");
             animator.SetBool("isJumping", true);
             if (rb.linearVelocityY > 0)
             {
-                animator.SetBool("isFalling", false);
+                //animator.SetBool("isFalling", false);
             }
             else
             {
-                animator.SetBool("isFalling", true);
+                //animator.SetBool("isFalling", true);
             }
         }
+        animator.SetBool("isFalling", false);
+        animator.SetBool("isJumping", false);
         
     }
 }
