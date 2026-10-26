@@ -465,19 +465,20 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            Debug.Log($"rb.linearVelocityY: {rb.linearVelocityY}");
+            //Debug.Log($"rb.linearVelocityY: {rb.linearVelocityY}");
             animator.SetBool("isJumping", true);
             if (rb.linearVelocityY > 0)
             {
-                //animator.SetBool("isFalling", false);
+                animator.SetBool("isFalling", false);
             }
             else
             {
-                //animator.SetBool("isFalling", true);
+                animator.SetBool("isFalling", true);
             }
         }
-        animator.SetBool("isFalling", false);
-        animator.SetBool("isJumping", false);
-        
+        //animator.SetBool("isFalling", true);
+        //animator.SetBool("isJumping", false);
+        //Debug.Log(animator.GetBool("isJumping"));
+        //Debug.Log($"Script is talking to the Animator on GameObject named: {animator.gameObject.name}", animator.gameObject);
     }
 }
